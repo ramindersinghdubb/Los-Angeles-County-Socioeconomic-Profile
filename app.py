@@ -275,7 +275,9 @@ continuous_color_dict['Hot'] = sorted([ [i/3, px.colors.sequential.Hot[i]] for i
 # ----- APP ----- #
 # --------------- #
 
-app = dash.Dash(__name__, external_stylesheets=[dbc.themes.CYBORG])
+app = dash.Dash(__name__, external_stylesheets=[dbc.themes.CYBORG, 
+                                                "assets/style.css"]
+               )
 server = app.server
 app.title = 'Los Angeles County Socioeconomic Profile'
 
