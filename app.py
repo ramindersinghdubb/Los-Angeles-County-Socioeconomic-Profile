@@ -63,7 +63,7 @@ measures_labels_list = ["Contract Rent",
                         "Household Income",
                         "Housing and Occupancy",
                         "Poverty Estimates",
-                        # "Transportation Methods to Work",
+                        "Work Commute Estimates",
                         # "Working Hours",
                         # "Other Economic Measures"
                        ]
@@ -75,7 +75,7 @@ measures_values_list = ['ContractRent',
                         'HouseholdIncome',
                         'HousingUnitsandOccupancy',
                         'Poverty',
-                        # 'TransportationMethodstoWork',
+                        'TransportationMethodstoWork',
                         # 'WorkHours',
                         # 'CharacteristicsoftheEconomicPopulation'
                        ]
@@ -204,6 +204,20 @@ for place in LA_County_values:
     dummy_tuple = zip(dummy_labels_list, dummy_values_list)
     dummy_dict['HealthInsuranceCoverage'] = [{'label': html.Span([i], style = {'color': '#151E3D'}), 'value': j} for i, j in dummy_tuple]
 
+    # -- Transportation Methods to Work -- #
+    dummy_labels_list = ['Commute Methods to Work',
+                         'Departure Times',
+                         'Travel Times',
+                         'Vehicles Available'
+                        ]
+    dummy_values_list = [f'TransportationMethodstoWork_{place}_METHODSTOWORK_LONG',
+                         f'TransportationMethodstoWork_{place}_DEPARTURE_LONG',
+                         f'TransportationMethodstoWork_{place}_TRAVEL_LONG',
+                         f'TransportationMethodstoWork_{place}_VEHICLESAVAILABLE_LONG'
+                        ]
+    dummy_tuple = zip(dummy_labels_list, dummy_values_list)
+    dummy_dict['TransportationMethodstoWork'] = [{'label': html.Span([i], style = {'color': '#151E3D'}), 'value': j} for i, j in dummy_tuple]
+
     
     submeasures_dict[place] = dummy_dict
 
@@ -256,6 +270,7 @@ continuous_color_dict['PuBuGn'] = sorted([ [1 - i/8, px.colors.sequential.PuBuGn
 continuous_color_dict['DarkMint'] = sorted([ [1 - i/6, px.colors.sequential.Darkmint[i]] for i in list(range(0, 7)) ])
 continuous_color_dict['Magma'] = sorted([ [i/9, px.colors.sequential.Magma[i]] for i in list(range(0, 10)) ])
 continuous_color_dict['Hot'] = sorted([ [i/3, px.colors.sequential.Hot[i]] for i in list(range(0, 4)) ])
+continuous_color_dict['OrRd'] = sorted([ [1 - i/8, px.colors.sequential.OrRd[i]] for i in list(range(0, 9)) ])
 
 
 
@@ -762,6 +777,22 @@ app.clientside_callback(
             var colorbar_title_text = '<b>Percentage<br>Uninsured</b>';
             var colorbar_tickprefix = '';
             var colorbar_ticksuffix = '%';
+            var zmin;
+            var zmax;
+            var zauto_bool = true;
+        }
+
+        if (selected_measure == 'TransportationMethodstoWork') {
+            var z_array = my_array.map(({PERCENT_Total_Workers16yearsandoverwhodidnotworkfromhome_TRAVELTIMETOWORK_Meantraveltimetoworkminutes}) => PERCENT_Total_Workers16yearsandoverwhodidnotworkfromhome_TRAVELTIMETOWORK_Meantraveltimetoworkminutes);
+            var strings = my_array.map(function(item) {
+                    return "<b style='font-size:16px;'>" + item['TRACT'] + "</b><br>" + city_string + "<br><br>"
+                    + "<span style='font-family: Trebuchet MS, sans-serif;'>Average Work Commute Time (" + item['YEAR'] + "): <br><b style='color:#B2560D; font-size:14px;'>" + item['PERCENT_Total_Workers16yearsandoverwhodidnotworkfromhome_TRAVELTIMETOWORK_Meantraveltimetoworkminutes'] + " minutes </b></span> &nbsp;&nbsp;&nbsp;&nbsp;<br><br><extra></extra>";
+                });
+            var colorscale_color = color_dict['OrRd'];
+            var colorbar_title_text = '<b>Average<br>Travel<br>Time<br>(Mins.)</b>';
+            var colorbar_tickprefix = '';
+            var colorbar_ticksuffix = '<br>mins.';
+            
             var zmin;
             var zmax;
             var zauto_bool = true;
@@ -1579,6 +1610,151 @@ app.clientside_callback(
                         'textposition': 'auto',
                         'marker': {'line': {'color': '#111111', 'width': 1.5},
                                    'color': 'rgb(203,213,232)'
+                                   },
+                        'textfont': {'shadow': '1px 1px 20px #FEF9F3'},
+                        'hoverinfo': 'none',
+                        'hovertemplate': null
+                    };
+
+                    var data = [data1, data2, data3];
+                    
+                }
+
+
+
+                if ( selected_submeasure.startsWith("TransportationMethodstoWork") ) {
+                    
+                    var barmode = 'group';
+                    var y1_array = my_array.map(({value_TOTAL}) => value_TOTAL);
+                    var y2_array = my_array.map(({value_MALE}) => value_MALE);
+                    var y3_array = my_array.map(({value_FEMALE}) => value_FEMALE);
+                    
+                    var xlabels_size;
+                    var x_ticktext;
+                    var x_tickvals;
+                    
+                    var yaxis_tickprefix = '';
+                    var yaxis_ticksuffix = '';
+
+                    var yaxis_title_text = '<b>Number of Workers</b>';
+
+                    if ( selected_submeasure.includes("_METHODSTOWORK_") ) {
+                        var y1_text = y1_array.map(function(item) {
+                            return "<b style='color:#112A46; font-size:7px;'>" + item + "</b>";
+                        });
+                        var y2_text = y2_array.map(function(item) {
+                            return "<b style='color:#112A46; font-size:7px;'>" + item + "</b>";
+                        });
+                        var y3_text = y3_array.map(function(item) {
+                            return "<b style='color:#112A46; font-size:7px;'>" + item + "</b>";
+                        });
+                        
+                        var xlabels_size = 10;
+                        var xaxis_title_text = '<b>Methods of Transportation</b>';
+                        
+                        var x_tickvals = ['Drove alone', 'Carpooled', 'Public transportation (excluding taxicab)', 'Walked', 'Bicycle', 'Taxicab, motorcycle, or other means', 'Worked from home'];
+                        var x_ticktext = ['Drove alone', 'Carpooled', 'Public transport<br>(excluding taxicab)', 'Walked', 'Bicycle', 'Taxicab, motorcycle,<br>or other means', 'Worked from<br>home'];
+                        var title_text = `<b>Methods of Transportation for Workers 16 and Older, ${selected_year}</b>`;
+                    }
+
+                    if ( selected_submeasure.includes("_DEPARTURE_") ) {
+                        var y1_text = y1_array.map(function(item) {
+                            return "<b style='color:#112A46; font-size:7px;'>" + item + "</b>";
+                        });
+                        var y2_text = y2_array.map(function(item) {
+                            return "<b style='color:#112A46; font-size:7px;'>" + item + "</b>";
+                        });
+                        var y3_text = y3_array.map(function(item) {
+                            return "<b style='color:#112A46; font-size:7px;'>" + item + "</b>";
+                        });
+                        
+                        var xlabels_size = 9;
+                        var xaxis_title_text = '<b>Departure Times</b>';
+                        
+                        var x_tickvals = ['12:00AM to 4:59AM', '5:00AM to 5:29AM', '5:30AM to 5:59AM', '6:00AM to 6:29AM', '6:30AM to 6:59AM', '7:00AM to 7:29AM', '7:30AM to 7:59AM', '8:00AM to 8:29AM', '8:30AM to 8:59AM', '9:00AM to 11:59PM'];
+                        var x_ticktext = ['12:00AM<br>to<br>4:59AM', '5:00AM<br>to<br>5:29AM', '5:30AM<br>to<br>5:59AM', '6:00AM<br>to<br>6:29AM', '6:30AM<br>to<br>6:59AM', '7:00AM<br>to<br>7:29AM', '7:30AM<br>to<br>7:59AM', '8:00AM<br>to<br>8:29AM', '8:30AM<br>to<br>8:59AM', '9:00AM<br>to<br>11:59PM'];
+                        var title_text = `<b>Departure Times for Workers 16 and Older, ${selected_year}</b>`;
+                    }
+
+                    if ( selected_submeasure.includes("_VEHICLESAVAILABLE_") ) {
+                        var y1_text = y1_array.map(function(item) {
+                            return "<b style='color:#112A46; font-size:9px;'>" + item + "</b>";
+                        });
+                        var y2_text = y2_array.map(function(item) {
+                            return "<b style='color:#112A46; font-size:9px;'>" + item + "</b>";
+                        });
+                        var y3_text = y3_array.map(function(item) {
+                            return "<b style='color:#112A46; font-size:9px;'>" + item + "</b>";
+                        });
+                        
+                        var xlabels_size = 12;
+                        var xaxis_title_text = '<b>Vehicles Availability</b>';
+                        
+                        var x_tickvals = ['No vehicle available', '1 vehicle available', '2 vehicles available', '3 or more vehicles available'];
+                        var x_ticktext = ['No vehicle', '1 vehicle', '2 vehicles', '3 or more<br>vehicles'];
+                        var title_text = `<b>Vehicles Available for Workers 16 and Older, ${selected_year}</b>`;
+                    }
+
+                    if ( selected_submeasure.includes("TRAVEL") ) {
+                        var y1_text = y1_array.map(function(item) {
+                            return "<b style='color:#112A46; font-size:7px;'>" + item + "</b>";
+                        });
+                        var y2_text = y2_array.map(function(item) {
+                            return "<b style='color:#112A46; font-size:7px;'>" + item + "</b>";
+                        });
+                        var y3_text = y3_array.map(function(item) {
+                            return "<b style='color:#112A46; font-size:7px;'>" + item + "</b>";
+                        });
+                        
+                        var xlabels_size = 8;
+                        var xaxis_title_text = '<b>Travel Times</b>';
+
+                        var x_tickvals = ['Less than 10 minutes', '10 to 14 minutes', '15 to 19 minutes', '20 to 24 minutes', '25 to 29 minutes', '30 to 34 minutes', '35 to 44 minutes', '45 to 59 minutes', '60 minutes or more'];
+                        var x_ticktext = ['Under 10 mins.', '10 to 14 mins.', '15 to 19 mins.', '20 to 24 mins.', '25 to 29 mins.', '30 to 34 mins.', '35 to 44 mins.', '45 to 59 mins.', '60 mins. or more'];
+                        
+                        
+                        var title_text = `<b>Travel Times for Workers 16 and Older, ${selected_year}</b>`;
+                    }
+
+                    data1 = {
+                        'type': 'bar',
+                        'x': x_array,
+                        'y': y1_array,
+                        name: 'All Workers',
+                        'text': y1_text,
+                        'textposition': 'auto',
+                        'marker': {'line': {'color': '#111111', 'width': 1.5},
+                                   'color': 'rgb(229,216,189)'
+                                   },
+                        'textfont': {'shadow': '1px 1px 20px #FEF9F3'},
+                        'hoverinfo': 'none',
+                        'hovertemplate': null
+                    };
+                    
+                    data2 = {
+                        'type': 'bar',
+                        'x': x_array,
+                        'y': y2_array,
+                        name: 'Male Workers',
+                        'text': y2_text,
+                        'textposition': 'auto',
+                        'marker': {'line': {'color': '#111111', 'width': 1.5},
+                                   'color': 'rgb(179,205,227)'
+                                   },
+                        'textfont': {'shadow': '1px 1px 20px #FEF9F3'},
+                        'hoverinfo': 'none',
+                        'hovertemplate': null
+                    };
+
+                    data3 = {
+                        'type': 'bar',
+                        'x': x_array,
+                        'y': y3_array,
+                        name: 'Female Workers',
+                        'text': y3_text,
+                        'textposition': 'auto',
+                        'marker': {'line': {'color': '#111111', 'width': 1.5},
+                                   'color': 'rgb(244,202,228)'
                                    },
                         'textfont': {'shadow': '1px 1px 20px #FEF9F3'},
                         'hoverinfo': 'none',
