@@ -109,6 +109,8 @@ for place in LA_County_values:
     dummy_tuple = zip(dummy_labels_list, dummy_values_list)
     dummy_dict['ContractRent'] = [{'label': html.Span([i], style = {'color': '#151E3D'}), 'value': j} for i, j in dummy_tuple]
     
+
+
     
     # -- Rent Burden -- #
     dummy_labels_list = ['Rent/Severe Rent Burden Over Time', 'Rent Burden and Severe Rent Burden',
@@ -122,6 +124,8 @@ for place in LA_County_values:
     dummy_tuple = zip(dummy_labels_list, dummy_values_list)
     dummy_dict['RentBurden'] = [{'label': html.Span([i], style = {'color': '#151E3D'}), 'value': j} for i, j in dummy_tuple]
     
+
+
     
     # -- Employment Statistics -- #
     dummy_labels_list = ['Unemp. Rate by Race (Over Time)', 'Unemployment Rate by Race',
@@ -147,6 +151,8 @@ for place in LA_County_values:
     dummy_tuple = zip(dummy_labels_list, dummy_values_list)
     dummy_dict['EmploymentStatistics'] = [{'label': html.Span([i], style = {'color': '#151E3D'}), 'value': j} for i, j in dummy_tuple]
     
+
+
     
     # -- Food Stamps -- #
     dummy_labels_list = ['Food Stamps Recipients (by Race)',
@@ -162,6 +168,8 @@ for place in LA_County_values:
     dummy_tuple = zip(dummy_labels_list, dummy_values_list)
     dummy_dict['FoodStamps'] = [{'label': html.Span([i], style = {'color': '#151E3D'}), 'value': j} for i, j in dummy_tuple]
     
+
+
     
     # -- Household Income -- #
     dummy_labels_list = ['Income Distribution (for Households)',
@@ -177,18 +185,40 @@ for place in LA_County_values:
     dummy_tuple = zip(dummy_labels_list, dummy_values_list)
     dummy_dict['HouseholdIncome'] = [{'label': html.Span([i], style = {'color': '#151E3D'}), 'value': j} for i, j in dummy_tuple]
 
+
+
+    
     # -- Housing Units and Occupancy -- #
     dummy_labels_list = ['Home Values (Owner-Occupied Units)',
                          'Occupied Housing Units by Race',
-                         'Occupied Housing Units by Age'
+                         'Occupied Housing Units by Age',
+                         'Housing Units by Year Built',
+                         'Rooms in Housing Units',
+                         'Bedrooms in Housing Units',
+                         'House Heating Fuel',
+                         'Select Units Lacking Facilities',
+                         'Occupants Per Room',
+                         'Monthly Owner Costs for Units with Mortgage',
+                         'Year Householder Moved In'
                         ]
     dummy_values_list = [f'HousingUnitsandOccupancy_{place}_HOMEVALUE_LONG',
                          f'HousingUnitsandOccupancy_{place}_RACE_HOUSINGUNITS_LONG',
                          f'HousingUnitsandOccupancy_{place}_AGE_HOUSINGUNITS_LONG',
+                         f'HousingUnitsandOccupancy_{place}_YEARBUILT_LONG',
+                         f'HousingUnitsandOccupancy_{place}_UNITROOMS_LONG',
+                         f'HousingUnitsandOccupancy_{place}_UNITBEDROOMS_LONG',
+                         f'HousingUnitsandOccupancy_{place}_HEATINGFUEL_LONG',
+                         f'HousingUnitsandOccupancy_{place}_LACKINGFACILITIES_LONG',
+                         f'HousingUnitsandOccupancy_{place}_OCCUPANTSPERROOM_LONG',
+                         f'HousingUnitsandOccupancy_{place}_MORTGAGESMOC_LONG',
+                         f'HousingUnitsandOccupancy_{place}_YEARMOVEDIN_LONG'
                         ]
     dummy_tuple = zip(dummy_labels_list, dummy_values_list)
     dummy_dict['HousingUnitsandOccupancy'] = [{'label': html.Span([i], style = {'color': '#151E3D'}), 'value': j} for i, j in dummy_tuple]
 
+
+
+    
     # -- Poverty -- #
     dummy_labels_list = ['Distribution of Poverty by Race',
                         ]
@@ -197,6 +227,9 @@ for place in LA_County_values:
     dummy_tuple = zip(dummy_labels_list, dummy_values_list)
     dummy_dict['Poverty'] = [{'label': html.Span([i], style = {'color': '#151E3D'}), 'value': j} for i, j in dummy_tuple]
 
+
+
+    
     # -- Health Insurance Coverage -- #
     dummy_labels_list = ['Insurance Coverage by Race',
                         ]
@@ -205,6 +238,9 @@ for place in LA_County_values:
     dummy_tuple = zip(dummy_labels_list, dummy_values_list)
     dummy_dict['HealthInsuranceCoverage'] = [{'label': html.Span([i], style = {'color': '#151E3D'}), 'value': j} for i, j in dummy_tuple]
 
+
+
+    
     # -- Transportation Methods to Work -- #
     dummy_labels_list = ['Commute Methods to Work',
                          'Departure Times',
@@ -251,6 +287,13 @@ discrete_color_dict['Okabe_8'] = ['#000000', '#CC79A7', '#D55E00', '#0072B2', '#
 discrete_color_dict['G10'] = px.colors.qualitative.G10
 
 discrete_color_dict['Greens_10'] = px.colors.sequential.Greens + ['rgb(0,65,26)']
+
+discrete_color_dict['Viridis'] = px.colors.sequential.Viridis
+discrete_color_dict['Magma'] = px.colors.sequential.Magma
+
+discrete_color_dict['Oranges'] = px.colors.sequential.Oranges[0:7] + ['rgb(149, 49, 3)', 'rgb(133, 43, 2)']
+discrete_color_dict['GnBu'] = px.colors.sequential.GnBu
+discrete_color_dict['Pastel2'] = px.colors.qualitative.Pastel2 + ['rgb(179,205,227)']
 
 
 # Colorblind-safe colors: https://colorbrewer2.org/
@@ -895,26 +938,39 @@ app.clientside_callback(
         }
         
         if (selected_measure == 'HousingUnitsandOccupancy') {
-            var z_array = my_array.map(({ESTIMATE_VALUE_Owneroccupiedhousingunits_Mediandollars}) => ESTIMATE_VALUE_Owneroccupiedhousingunits_Mediandollars);
+            var z_array = my_array.map(({ESTIMATE_TotalHousingUnits}) => ESTIMATE_TotalHousingUnits);
             var strings = my_array.map(function(item) {
                 return "<b style='font-size:16px;'>" + item['TRACT'] + "</b><br>" + city_string + "<br><br>"
-                + "<span style='font-family: Trebuchet MS, sans-serif;'>Median Owner-Occupied Home Value (" + item['YEAR'] + "): <br><b style='color:#234F1E; font-size:14px;'>" + item['ESTIMATE_VALUE_Owneroccupiedhousingunits_Mediandollars_string'] + "</b></span> &nbsp;&nbsp;&nbsp;&nbsp;<br><br><extra></extra>";
+                + "<span style='font-family: Trebuchet MS, sans-serif;'>Total Housing Units (" + item['YEAR'] + "): <br><b style='color:#234F1E; font-size:14px;'>" + item['ESTIMATE_TotalHousingUnits'] + "</b></span> &nbsp;&nbsp;&nbsp;&nbsp;<br><br><extra></extra>";
             });
-            var colorscale_color = color_dict['Emrld'];
-            var colorbar_title_text = '<b>Median<br>Owner-<br>Occupied<br>Home<br>Value</b>';
-            var colorbar_tickprefix = '$';
+            
+            var colorscale_color = 'Greens';
+            var colorbar_title_text = '<b>Total<br>Housing<br>Units</b>';
+            var colorbar_tickprefix = '';
             var colorbar_ticksuffix = '';
 
-            if (selected_submeasure != undefined && selected_submeasure.includes("_HOUSINGUNITS_")){
-                var z_array = my_array.map(({ESTIMATE_TotalHousingUnits}) => ESTIMATE_TotalHousingUnits);
+            if (selected_submeasure != undefined && selected_submeasure.includes("_HOMEVALUE_")){
+                var z_array = my_array.map(({ESTIMATE_VALUE_Owneroccupiedhousingunits_Mediandollars}) => ESTIMATE_VALUE_Owneroccupiedhousingunits_Mediandollars);
                 var strings = my_array.map(function(item) {
                     return "<b style='font-size:16px;'>" + item['TRACT'] + "</b><br>" + city_string + "<br><br>"
-                    + "<span style='font-family: Trebuchet MS, sans-serif;'>Total Housing Units (" + item['YEAR'] + "): <br><b style='color:#234F1E; font-size:14px;'>" + item['ESTIMATE_TotalHousingUnits'] + "</b></span> &nbsp;&nbsp;&nbsp;&nbsp;<br><br><extra></extra>";
+                    + "<span style='font-family: Trebuchet MS, sans-serif;'>Median Owner-Occupied Home Value (" + item['YEAR'] + "): <br><b style='color:#234F1E; font-size:14px;'>" + item['ESTIMATE_VALUE_Owneroccupiedhousingunits_Mediandollars_string'] + "</b></span> &nbsp;&nbsp;&nbsp;&nbsp;<br><br><extra></extra>";
+                });
+                var colorscale_color = color_dict['Emrld'];
+                var colorbar_title_text = '<b>Median<br>Owner-<br>Occupied<br>Home<br>Value</b>';
+                var colorbar_tickprefix = '$';
+                var colorbar_ticksuffix = '';
+            }
+
+            if (selected_submeasure != undefined && selected_submeasure.includes("SMOC")){
+                var z_array = my_array.map(({ESTIMATE_SELECTEDMONTHLYOWNERCOSTSSMOC_Housingunitswithamortgage_Mediandollars}) => ESTIMATE_SELECTEDMONTHLYOWNERCOSTSSMOC_Housingunitswithamortgage_Mediandollars);
+                var strings = my_array.map(function(item) {
+                    return "<b style='font-size:16px;'>" + item['TRACT'] + "</b><br>" + city_string + "<br><br>"
+                    + "<span style='font-family: Trebuchet MS, sans-serif;'>Median Monthly Owner Costs (" + item['YEAR'] + "): <br><b style='color:#234F1E; font-size:14px;'>" + item['ESTIMATE_SELECTEDMONTHLYOWNERCOSTSSMOC_Housingunitswithamortgage_Mediandollars'] + "</b></span> &nbsp;&nbsp;&nbsp;&nbsp;<br><br><extra></extra>";
                 });
                 
-                var colorscale_color = 'Greens';
-                var colorbar_title_text = '<b>Total<br>Housing<br>Units</b>';
-                var colorbar_tickprefix = '';
+                var colorscale_color = color_dict['Hot'];
+                var colorbar_title_text = '<b>Median<br>Monthly<br>Owner<br>Costs</b>';
+                var colorbar_tickprefix = '$';
                 var colorbar_ticksuffix = '';
             }
             
@@ -1502,142 +1558,481 @@ app.clientside_callback(
                 }
 
                 if ( selected_submeasure.startsWith("HousingUnitsandOccupancy")  ) {
-                    var y_array = my_array.map(({value}) => value);
-                    var xlabels_size = 9;
-                    
-                    var text = y_array.map(function(item) {
-                        return "<b style='color:#112A46; font-size:12px;'>" + item + "</b>";
-                    });
-                    var color_array = discrete_color_dict['Greens_10'];
-
-                    var xaxis_title_text = '<b>Home Values</b>';
-                    var yaxis_tickprefix = '';
-                    var yaxis_ticksuffix = '';
-                    var xlabels_size = 10;
-                    var x_tickvals = ['Less than $50,000', '$50,000 to $99,999', '$100,000 to $149,999', '$150,000 to $199,999', '$200,000 to $299,999', '$300,000 to $499,999', '$500,000 to $999,999', '$1,000,000 or more'];
-                    var x_ticktext = ['Less than $50k', '$50k to 99.9k', '$100k to<br>149.9k', '$150k to<br>199.9k', '$200k to<br>299.9k', '$300k to<br>499.9k', '$500k to<br>999.9k', '$1 million<br>or more'];
-
                     if (selected_submeasure.includes("HOMEVALUE_LONG")){
+                        var y_array = my_array.map(({value}) => value);
+                        
+                        var text = y_array.map(function(item) {
+                            return "<b style='color:#112A46; font-size:12px;'>" + item + "</b>";
+                        });
+                        var color_array = discrete_color_dict['Greens_10'];
+    
+                        var xaxis_title_text = '<b>Home Values</b>';
+                        var yaxis_tickprefix = '';
+                        var yaxis_ticksuffix = '';
+                        var xlabels_size = 10;
+                        
+                        var x_tickvals = ['Less than $50,000', '$50,000 to $99,999', '$100,000 to $149,999', '$150,000 to $199,999', '$200,000 to $299,999', '$300,000 to $499,999', '$500,000 to $999,999', '$1,000,000 or more'];
+                        var x_ticktext = ['Less than $50k', '$50k to 99.9k', '$100k to<br>149.9k', '$150k to<br>199.9k', '$200k to<br>299.9k', '$300k to<br>499.9k', '$500k to<br>999.9k', '$1 million<br>or more'];
+                        
                         var yaxis_title_text = '<b>Number of Households</b>';
                         var title_text = `<b>Home Values for Owner-Occupied Housing Units, ${selected_year}</b>`;
+    
+                        var data = [{
+                            'type': 'bar',
+                            'x': x_array,
+                            'y': y_array,
+                            'text': text,
+                            'textposition': 'auto',
+                            'marker': {'color': color_array,
+                                       'line': {'color': '#111111', 'width': 1.5}
+                                       },
+                            'textfont': {'shadow': '1px 1px 20px #FEF9F3'},
+                            'hoverinfo': 'none',
+                            'hovertemplate': null
+                        }];
                     }
 
-                    var data = [{
-                        'type': 'bar',
-                        'x': x_array,
-                        'y': y_array,
-                        'text': text,
-                        'textposition': 'auto',
-                        'marker': {'color': color_array,
-                                   'line': {'color': '#111111', 'width': 1.5}
-                                   },
-                        'textfont': {'shadow': '1px 1px 20px #FEF9F3'},
-                        'hoverinfo': 'none',
-                        'hovertemplate': null
-                    }];
-                    
-                }
-
-                if ( selected_submeasure.startsWith("HousingUnitsandOccupancy") && selected_submeasure.includes("_HOUSINGUNITS_") ) {
-                    
-                    var barmode = 'group';
-                    var y1_array = my_array.map(({value_TOTAL}) => value_TOTAL);
-                    var y2_array = my_array.map(({value_OWNER}) => value_OWNER);
-                    var y3_array = my_array.map(({value_RENTER}) => value_RENTER);
-                    
-                    var xlabels_size;
-                    var x_ticktext;
-                    var x_tickvals;
-                    
-                    var yaxis_tickprefix = '';
-                    var yaxis_ticksuffix = '';
-
-                    var yaxis_title_text = '<b>Number of Housing Units</b>';
-
-                    if ( selected_submeasure.includes("RACE") ) {
-                        var y1_text = y1_array.map(function(item) {
-                            return "<b style='color:#112A46; font-size:7px;'>" + item + "</b>";
-                        });
-                        var y2_text = y2_array.map(function(item) {
-                            return "<b style='color:#112A46; font-size:7px;'>" + item + "</b>";
-                        });
-                        var y3_text = y3_array.map(function(item) {
-                            return "<b style='color:#112A46; font-size:7px;'>" + item + "</b>";
-                        });
+                    if (selected_submeasure.includes("_HOUSINGUNITS_")){
+                        var barmode = 'group';
+                        var y1_array = my_array.map(({value_TOTAL}) => value_TOTAL);
+                        var y2_array = my_array.map(({value_OWNER}) => value_OWNER);
+                        var y3_array = my_array.map(({value_RENTER}) => value_RENTER);
                         
-                        var xlabels_size = 9;
-                        var xaxis_title_text = '<b>Racial Categories</b>';
+                        var xlabels_size;
+                        var x_ticktext;
+                        var x_tickvals;
                         
-                        var x_tickvals = ['White', 'Black or African American', 'American Indian and Alaska Native', 'Asian', 'Native Hawaiian and Other Pacific Islander', 'Some other race', 'Two or more races', 'Hispanic or Latino origin', 'White alone, not Hispanic or Latino'];
-                        var x_ticktext = ['White', 'Black or African<br>American', 'American Indian and<br>Alaska Native', 'Asian', 'Native Hawaiian and<br>Other Pacific Islander', 'Some other race', 'Two or more races', 'Hispanic or Latino<br>(of any race)', 'White, not Hispanic<br>or Latino'];
-                        var title_text = `<b>Occupied Housing Units by Householder Race, ${selected_year}</b>`;
+                        var yaxis_tickprefix = '';
+                        var yaxis_ticksuffix = '';
+    
+                        var yaxis_title_text = '<b>Number of Housing Units</b>';
+    
+                        if ( selected_submeasure.includes("RACE") ) {
+                            var y1_text = y1_array.map(function(item) {
+                                return "<b style='color:#112A46; font-size:7px;'>" + item + "</b>";
+                            });
+                            var y2_text = y2_array.map(function(item) {
+                                return "<b style='color:#112A46; font-size:7px;'>" + item + "</b>";
+                            });
+                            var y3_text = y3_array.map(function(item) {
+                                return "<b style='color:#112A46; font-size:7px;'>" + item + "</b>";
+                            });
+                            
+                            var xlabels_size = 9;
+                            var xaxis_title_text = '<b>Racial Categories</b>';
+                            
+                            var x_tickvals = ['White', 'Black or African American', 'American Indian and Alaska Native', 'Asian', 'Native Hawaiian and Other Pacific Islander', 'Some other race', 'Two or more races', 'Hispanic or Latino origin', 'White alone, not Hispanic or Latino'];
+                            var x_ticktext = ['White', 'Black or African<br>American', 'American Indian and<br>Alaska Native', 'Asian', 'Native Hawaiian and<br>Other Pacific Islander', 'Some other race', 'Two or more races', 'Hispanic or Latino<br>(of any race)', 'White, not Hispanic<br>or Latino'];
+                            var title_text = `<b>Occupied Housing Units by Householder Race, ${selected_year}</b>`;
+                        }
+    
+                        if ( selected_submeasure.includes("AGE") ) {
+                            var y1_text = y1_array.map(function(item) {
+                                return "<b style='color:#112A46; font-size:7px;'>" + item + "</b>";
+                            });
+                            var y2_text = y2_array.map(function(item) {
+                                return "<b style='color:#112A46; font-size:7px;'>" + item + "</b>";
+                            });
+                            var y3_text = y3_array.map(function(item) {
+                                return "<b style='color:#112A46; font-size:7px;'>" + item + "</b>";
+                            });
+                            
+                            var xlabels_size = 10;
+                            var xaxis_title_text = '<b>Age</b>';
+    
+                            var x_tickvals = ['Under 35 years', '35 to 44 years', '45 to 54 years', '55 to 64 years', '65 to 74 years', '75 to 84 years', '85 years and over'];
+                            var x_ticktext = ['Under 35<br>years', '35 to 44', '45 to 54', '55 to 64', '65 to 74', '75 to 84', '85 years and<br>Older'];
+                            var title_text = `<b>Occupied Housing Units by Householder Age, ${selected_year}</b>`;
+                        }
+    
+                        data1 = {
+                            'type': 'bar',
+                            'x': x_array,
+                            'y': y1_array,
+                            name: 'Total Occupied<br>Housing Units',
+                            'text': y1_text,
+                            'textposition': 'auto',
+                            'marker': {'line': {'color': '#111111', 'width': 1.5},
+                                       'color': 'rgb(179,226,205)'
+                                       },
+                            'textfont': {'shadow': '1px 1px 20px #FEF9F3'},
+                            'hoverinfo': 'none',
+                            'hovertemplate': null
+                        };
+                        
+                        data2 = {
+                            'type': 'bar',
+                            'x': x_array,
+                            'y': y2_array,
+                            name: 'Owner-Occupied<br>Units',
+                            'text': y2_text,
+                            'textposition': 'auto',
+                            'marker': {'line': {'color': '#111111', 'width': 1.5},
+                                       'color': 'rgb(253,205,172)'
+                                       },
+                            'textfont': {'shadow': '1px 1px 20px #FEF9F3'},
+                            'hoverinfo': 'none',
+                            'hovertemplate': null
+                        };
+    
+                        data3 = {
+                            'type': 'bar',
+                            'x': x_array,
+                            'y': y3_array,
+                            name: 'Renter-Occupied<br>Units',
+                            'text': y3_text,
+                            'textposition': 'auto',
+                            'marker': {'line': {'color': '#111111', 'width': 1.5},
+                                       'color': 'rgb(203,213,232)'
+                                       },
+                            'textfont': {'shadow': '1px 1px 20px #FEF9F3'},
+                            'hoverinfo': 'none',
+                            'hovertemplate': null
+                        };
+    
+                        var data = [data1, data2, data3];
+
                     }
 
-                    if ( selected_submeasure.includes("AGE") ) {
-                        var y1_text = y1_array.map(function(item) {
-                            return "<b style='color:#112A46; font-size:7px;'>" + item + "</b>";
-                        });
-                        var y2_text = y2_array.map(function(item) {
-                            return "<b style='color:#112A46; font-size:7px;'>" + item + "</b>";
-                        });
-                        var y3_text = y3_array.map(function(item) {
-                            return "<b style='color:#112A46; font-size:7px;'>" + item + "</b>";
-                        });
+                    if ( selected_submeasure.includes("YEARBUILT") ){
+                        var y_array = my_array.map(({value}) => value);
                         
+                        var text = y_array.map(function(item) {
+                            return "<b style='color:#112A46; font-size:12px;'>" + item + "</b>";
+                        });
+                        var color_array = discrete_color_dict['Oranges'];
+    
+                        var xaxis_title_text = '<b>Year Housing Unit Built</b>';
+                        var yaxis_tickprefix = '';
+                        var yaxis_ticksuffix = '';
                         var xlabels_size = 10;
-                        var xaxis_title_text = '<b>Age</b>';
-
-                        var x_tickvals = ['Under 35 years', '35 to 44 years', '45 to 54 years', '55 to 64 years', '65 to 74 years', '75 to 84 years', '85 years and over'];
-                        var x_ticktext = ['Under 35<br>years', '35 to 44', '45 to 54', '55 to 64', '65 to 74', '75 to 84', '85 years and<br>Older'];
-                        var title_text = `<b>Occupied Housing Units by Householder Age, ${selected_year}</b>`;
+                        
+                        var yaxis_title_text = '<b>Number of Housing Units</b>';
+                        var title_text = `<b>Housing Units by Year Built, ${selected_year}</b>`;
+    
+                        var data = [{
+                            'type': 'bar',
+                            'x': x_array,
+                            'y': y_array,
+                            'text': text,
+                            'textposition': 'auto',
+                            'marker': {'color': color_array,
+                                       'line': {'color': '#111111', 'width': 1.5}
+                                       },
+                            'textfont': {'shadow': '1px 1px 20px #FEF9F3'},
+                            'hoverinfo': 'none',
+                            'hovertemplate': null
+                        }];
                     }
 
-                    data1 = {
-                        'type': 'bar',
-                        'x': x_array,
-                        'y': y1_array,
-                        name: 'Total Occupied<br>Housing Units',
-                        'text': y1_text,
-                        'textposition': 'auto',
-                        'marker': {'line': {'color': '#111111', 'width': 1.5},
-                                   'color': 'rgb(179,226,205)'
-                                   },
-                        'textfont': {'shadow': '1px 1px 20px #FEF9F3'},
-                        'hoverinfo': 'none',
-                        'hovertemplate': null
-                    };
-                    
-                    data2 = {
-                        'type': 'bar',
-                        'x': x_array,
-                        'y': y2_array,
-                        name: 'Owner-Occupied<br>Units',
-                        'text': y2_text,
-                        'textposition': 'auto',
-                        'marker': {'line': {'color': '#111111', 'width': 1.5},
-                                   'color': 'rgb(253,205,172)'
-                                   },
-                        'textfont': {'shadow': '1px 1px 20px #FEF9F3'},
-                        'hoverinfo': 'none',
-                        'hovertemplate': null
-                    };
+                    if ( selected_submeasure.includes("UNITROOMS") ){
+                        var y_array = my_array.map(({value}) => value);
+                        
+                        var text = y_array.map(function(item) {
+                            return "<b style='color:#112A46; font-size:12px;'>" + item + "</b>";
+                        });
+                        var color_array = discrete_color_dict['GnBu'];
+    
+                        var xaxis_title_text = '<b>Rooms in Housing Unit</b>';
+                        var yaxis_tickprefix = '';
+                        var yaxis_ticksuffix = '';
+                        var xlabels_size = 12;
+                        
+                        var yaxis_title_text = '<b>Number of Housing Units</b>';
+                        var title_text = `<b>Housing Units by Number of Rooms, ${selected_year}</b>`;
 
-                    data3 = {
-                        'type': 'bar',
-                        'x': x_array,
-                        'y': y3_array,
-                        name: 'Renter-Occupied<br>Units',
-                        'text': y3_text,
-                        'textposition': 'auto',
-                        'marker': {'line': {'color': '#111111', 'width': 1.5},
-                                   'color': 'rgb(203,213,232)'
-                                   },
-                        'textfont': {'shadow': '1px 1px 20px #FEF9F3'},
-                        'hoverinfo': 'none',
-                        'hovertemplate': null
-                    };
+                        var x_tickvals = ['1 room', '2 rooms', '3 rooms', '4 rooms', '5 rooms', '6 rooms', '7 rooms', '8 rooms', '9 rooms or more'];
+                        var x_ticktext = ['1 room', '2 rooms', '3 rooms', '4 rooms', '5 rooms', '6 rooms', '7 rooms', '8 rooms', '9 rooms<br>or more'];
+    
+                        var data = [{
+                            'type': 'bar',
+                            'x': x_array,
+                            'y': y_array,
+                            'text': text,
+                            'textposition': 'auto',
+                            'marker': {'color': color_array,
+                                       'line': {'color': '#111111', 'width': 1.5}
+                                       },
+                            'textfont': {'shadow': '1px 1px 20px #FEF9F3'},
+                            'hoverinfo': 'none',
+                            'hovertemplate': null
+                        }];
+                    }
 
-                    var data = [data1, data2, data3];
+                    if ( selected_submeasure.includes("UNITBEDROOMS") ){
+                        var y_array = my_array.map(({value}) => value);
+                        
+                        var text = y_array.map(function(item) {
+                            return "<b style='color:#112A46; font-size:12px;'>" + item + "</b>";
+                        });
+                        var color_array = discrete_color_dict['GnBu'];
+    
+                        var xaxis_title_text = '<b>Bedrooms in Housing Unit</b>';
+                        var yaxis_tickprefix = '';
+                        var yaxis_ticksuffix = '';
+                        var xlabels_size = 11;
+                        
+                        var yaxis_title_text = '<b>Number of Housing Units</b>';
+                        var title_text = `<b>Housing Units by Number of Bedrooms, ${selected_year}</b>`;
+                        var x_tickvals = ['No bedroom', '1 bedroom', '2 bedrooms', '3 bedrooms', '4 bedrooms', '5 or more bedrooms'];
+                        var x_ticktext = ['No bedrooms', '1 bedroom', '2 bedrooms', '3 bedrooms', '4 bedrooms', '5 or more<br>bedrooms'];
+    
+                        var data = [{
+                            'type': 'bar',
+                            'x': x_array,
+                            'y': y_array,
+                            'text': text,
+                            'textposition': 'auto',
+                            'marker': {'color': color_array,
+                                       'line': {'color': '#111111', 'width': 1.5}
+                                       },
+                            'textfont': {'shadow': '1px 1px 20px #FEF9F3'},
+                            'hoverinfo': 'none',
+                            'hovertemplate': null
+                        }];
+                    }
+
+                    if ( selected_submeasure.includes("HEATINGFUEL") ){
+                        var y_array = my_array.map(({value}) => value);
+                        
+                        var text = y_array.map(function(item) {
+                            return "<b style='color:#112A46; font-size:12px;'>" + item + "</b>";
+                        });
+                        var color_array = discrete_color_dict['Pastel2'];
+    
+                        var xaxis_title_text = '<b>House Heating Fuel</b>';
+                        var yaxis_tickprefix = '';
+                        var yaxis_ticksuffix = '';
+                        var xlabels_size = 10;
+                        
+                        var yaxis_title_text = '<b>Number of Housing Units</b>';
+                        var title_text = `<b>Housing Units by House Heating Fuel, ${selected_year}</b>`;
+                        var x_tickvals = ['Utility gas', 'Bottled, tank, or LP gas', 'Electricity', 'Fuel oil, kerosene, etc.', 'Coal or coke', 'Wood', 'Solar energy', 'Other fuel', 'No fuel used'];
+                        var x_ticktext = ['Utility gas', 'Bottled, tank,<br>or LP gas', 'Electricity', 'Fuel oil, kerosene,<br>etc.', 'Coal or coke', 'Wood', 'Solar energy', 'Other fuel', 'No fuel used'];
+    
+                        var data = [{
+                            'type': 'bar',
+                            'x': x_array,
+                            'y': y_array,
+                            'text': text,
+                            'textposition': 'auto',
+                            'marker': {'color': color_array,
+                                       'line': {'color': '#111111', 'width': 1.5}
+                                       },
+                            'textfont': {'shadow': '1px 1px 20px #FEF9F3'},
+                            'hoverinfo': 'none',
+                            'hovertemplate': null
+                        }];
+                    }
+
+                    if ( selected_submeasure.includes("LACKINGFACILITIES") ){
+                        var y_array = my_array.map(({value}) => value);
+                        
+                        var text = y_array.map(function(item) {
+                            return "<b style='color:#112A46; font-size:12px;'>" + item + "</b>";
+                        });
+                        var color_array = discrete_color_dict['Pastel2'];
+    
+                        var xaxis_title_text = '<b>Type of Facilities</b>';
+                        var yaxis_tickprefix = '';
+                        var yaxis_ticksuffix = '';
+                        var xlabels_size = 12;
+                        var xaxis_standoff = 20;
+                        
+                        var yaxis_title_text = '<b>Number of Housing Units</b>';
+                        var title_text = `<b>Housing Units by Lacking Facilities, ${selected_year}</b>`;
+                        var x_tickvals = ['Lacking complete plumbing facilities', 'Lacking complete kitchen facilities', 'No telephone service available'];
+                        var x_ticktext = ['Lacking complete<br>plumbing facilities', 'Lacking complete<br>kitchen facilities', 'No telephone service<br>available'];
+    
+                        var data = [{
+                            'type': 'bar',
+                            'x': x_array,
+                            'y': y_array,
+                            'text': text,
+                            'textposition': 'auto',
+                            'marker': {'color': color_array,
+                                       'line': {'color': '#111111', 'width': 1.5}
+                                       },
+                            'textfont': {'shadow': '1px 1px 20px #FEF9F3'},
+                            'hoverinfo': 'none',
+                            'hovertemplate': null
+                        }];
+                    }
+
+                    if ( selected_submeasure.includes("OCCUPANTSPERROOM") ){
+                        var y_array = my_array.map(({value}) => value);
+                        
+                        var text = y_array.map(function(item) {
+                            return "<b style='color:#112A46; font-size:12px;'>" + item + "</b>";
+                        });
+                        var color_array = discrete_color_dict['Pastel2'];
+    
+                        var xaxis_title_text = '<b>Occupants Per Room</b>';
+                        var yaxis_tickprefix = '';
+                        var yaxis_ticksuffix = '';
+                        var xlabels_size = 12;
+                        
+                        var yaxis_title_text = '<b>Number of Housing Units</b>';
+                        var title_text = `<b>Housing Units by Occupants Per Room, ${selected_year}</b>`;
+                        var xaxis_standoff = 20;
+    
+                        var data = [{
+                            'type': 'bar',
+                            'x': x_array,
+                            'y': y_array,
+                            'text': text,
+                            'textposition': 'auto',
+                            'marker': {'color': color_array,
+                                       'line': {'color': '#111111', 'width': 1.5}
+                                       },
+                            'textfont': {'shadow': '1px 1px 20px #FEF9F3'},
+                            'hoverinfo': 'none',
+                            'hovertemplate': null
+                        }];
+                    }
+
+                    if ( selected_submeasure.includes("MORTGAGESMOC") ){
+                        var y_array = my_array.map(({value}) => value);
+                        
+                        var text = y_array.map(function(item) {
+                            return "<b style='color:#112A46; font-size:12px;'>" + item + "</b>";
+                        });
+                        var color_array = discrete_color_dict['YlOrRd_9'];
+    
+                        var xaxis_title_text = '<b>Monthly Owner Costs</b>';
+                        var yaxis_tickprefix = '';
+                        var yaxis_ticksuffix = '';
+                        var xlabels_size = 12;
+                        var xaxis_standoff = 20;
+                        
+                        var yaxis_title_text = '<b>Number of Housing Units</b>';
+                        var title_text = `<b>Housing Units (with Mortgages) by Monthly Owner Costs, ${selected_year}</b>`;
+                        var x_tickvals = ['Less than $500', '$500 to $999', '$1,000 to $1,499', '$1,500 to $1,999', '$2,000 to $2,499', '$2,500 to $2,999', '$3,000 or more', '$2,000 or more'];
+                        var x_ticktext = ['Less than<br>$500', '$500 to<br>999', '$1,000 to<br>1,499', '$1,500 to<br>1,999', '$2,000 to<br>2,499', '$2,500 to<br>2,999', '$3,000 or<br>more', '$2,000 or<br>more'];
+    
+                        var data = [{
+                            'type': 'bar',
+                            'x': x_array,
+                            'y': y_array,
+                            'text': text,
+                            'textposition': 'auto',
+                            'marker': {'color': color_array,
+                                       'line': {'color': '#111111', 'width': 1.5}
+                                       },
+                            'textfont': {'shadow': '1px 1px 20px #FEF9F3'},
+                            'hoverinfo': 'none',
+                            'hovertemplate': null
+                        }];
+                    }
+
+                    if ( selected_submeasure.includes("YEARMOVEDIN") ){
+                        if ( selected_year < 2017 ) {
+                            var y_array = my_array.map(({value_TOTAL}) => value_TOTAL);
+                            
+                            var text = y_array.map(function(item) {
+                                return "<b style='color:#112A46; font-size:12px;'>" + item + "</b>";
+                            });
+                            var color_array = discrete_color_dict['GnBu'];
+        
+                            var xaxis_title_text = '<b>Year Householder Moved In</b>';
+                            var yaxis_tickprefix = '';
+                            var yaxis_ticksuffix = '';
+                            var xlabels_size = 12;
+                            var xaxis_standoff = 20;
+                            
+                            var yaxis_title_text = '<b>Number of Housing Units</b>';
+                            var title_text = `<b>Housing Units by Year Householder Built In, ${selected_year}</b>`;
+                            var x_tickvals = ['1969 or earlier', '1970 to 1979', '1980 to 1989', '1990 to 1999', '2000 to 2004', '2005 or later', '2000 to 2009', '2010 or later', '1979 or earlier', '2010 to 2014', '2015 or later', '1989 or earlier', '2015 to 2016', '2017 or later', '2015 to 2018', '2019 or later', '2010 to 2017', '2018 to 2020', '2021 or later'];
+                            var x_ticktext = ['1969 or<br>earlier', '1970 to<br>1979', '1980 to<br>1989', '1990 to<br>1999', '2000 to<br>2004', '2005 or<br>later', '2000 to<br>2009', '2010 or<br>later', '1979 or<br>earlier', '2010 to<br>2014', '2015 or<br>later', '1989 or<br>earlier', '2015 to<br>2016', '2017 or<br>later', '2015 to<br>2018', '2019 or<br>later', '2010 to<br>2017', '2018 to<br>2020', '2021 or<br>later'];
+        
+                            var data = [{
+                                'type': 'bar',
+                                'x': x_array,
+                                'y': y_array,
+                                'text': text,
+                                'textposition': 'auto',
+                                'marker': {'color': color_array,
+                                           'line': {'color': '#111111', 'width': 1.5}
+                                           },
+                                'textfont': {'shadow': '1px 1px 20px #FEF9F3'},
+                                'hoverinfo': 'none',
+                                'hovertemplate': null
+                            }];
+                        }
+                        if ( selected_year >= 2017 ) {
+                            var y1_array = my_array.map(({value_TOTAL}) => value_TOTAL);
+                            var y2_array = my_array.map(({value_OWNER}) => value_OWNER);
+                            var y3_array = my_array.map(({value_RENTER}) => value_RENTER);
+                            
+                            var y1_text = y1_array.map(function(item) {
+                                return "<b style='color:#112A46; font-size:10px;'>" + item + "</b>";
+                            });
+                            var y2_text = y2_array.map(function(item) {
+                                return "<b style='color:#112A46; font-size:10px;'>" + item + "</b>";
+                            });
+                            var y3_text = y3_array.map(function(item) {
+                                return "<b style='color:#112A46; font-size:10px;'>" + item + "</b>";
+                            });
+        
+                            var xaxis_title_text = '<b>Year Householder Moved In</b>';
+                            var yaxis_tickprefix = '';
+                            var yaxis_ticksuffix = '';
+                            var xlabels_size = 12;
+                            var xaxis_standoff = 20;
+                            
+                            var yaxis_title_text = '<b>Number of Housing Units</b>';
+                            var title_text = `<b>Housing Units by Year Householder Built In, ${selected_year}</b>`;
+                            var x_tickvals = ['1969 or earlier', '1970 to 1979', '1980 to 1989', '1990 to 1999', '2000 to 2004', '2005 or later', '2000 to 2009', '2010 or later', '1979 or earlier', '2010 to 2014', '2015 or later', '1989 or earlier', '2015 to 2016', '2017 or later', '2015 to 2018', '2019 or later', '2010 to 2017', '2018 to 2020', '2021 or later'];
+                            var x_ticktext = ['1969 or<br>earlier', '1970 to<br>1979', '1980 to<br>1989', '1990 to<br>1999', '2000 to<br>2004', '2005 or<br>later', '2000 to<br>2009', '2010 or<br>later', '1979 or<br>earlier', '2010 to<br>2014', '2015 or<br>later', '1989 or<br>earlier', '2015 to<br>2016', '2017 or<br>later', '2015 to<br>2018', '2019 or<br>later', '2010 to<br>2017', '2018 to<br>2020', '2021 or<br>later'];
+
+                            data1 = {
+                                'type': 'bar',
+                                'x': x_array,
+                                'y': y1_array,
+                                name: 'Total Housing<br>Units',
+                                'text': y1_text,
+                                'textposition': 'auto',
+                                'marker': {'line': {'color': '#111111', 'width': 1.5},
+                                           'color': 'rgb(179,226,205)'
+                                           },
+                                'textfont': {'shadow': '1px 1px 20px #FEF9F3'},
+                                'hoverinfo': 'none',
+                                'hovertemplate': null
+                            };
+                        
+                            data2 = {
+                                'type': 'bar',
+                                'x': x_array,
+                                'y': y2_array,
+                                name: 'Owner-Occupied<br>Units',
+                                'text': y2_text,
+                                'textposition': 'auto',
+                                'marker': {'line': {'color': '#111111', 'width': 1.5},
+                                           'color': 'rgb(253,205,172)'
+                                           },
+                                'textfont': {'shadow': '1px 1px 20px #FEF9F3'},
+                                'hoverinfo': 'none',
+                                'hovertemplate': null
+                            };
+        
+                            data3 = {
+                                'type': 'bar',
+                                'x': x_array,
+                                'y': y3_array,
+                                name: 'Renter-Occupied<br>Units',
+                                'text': y3_text,
+                                'textposition': 'auto',
+                                'marker': {'line': {'color': '#111111', 'width': 1.5},
+                                           'color': 'rgb(203,213,232)'
+                                           },
+                                'textfont': {'shadow': '1px 1px 20px #FEF9F3'},
+                                'hoverinfo': 'none',
+                                'hovertemplate': null
+                            };
+        
+                            var data = [data1, data2, data3];
+                        }
+                    }
                     
                 }
 
