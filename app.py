@@ -1977,7 +1977,7 @@ app.clientside_callback(
                             var xaxis_standoff = 20;
                             
                             var yaxis_title_text = '<b>Number of Housing Units</b>';
-                            var title_text = `<b>Housing Units by Year Householder Built In, ${selected_year}</b>`;
+                            var title_text = `<b>Housing Units by Year Householder Moved In, ${selected_year}</b>`;
                             var x_tickvals = ['1969 or earlier', '1970 to 1979', '1980 to 1989', '1990 to 1999', '2000 to 2004', '2005 or later', '2000 to 2009', '2010 or later', '1979 or earlier', '2010 to 2014', '2015 or later', '1989 or earlier', '2015 to 2016', '2017 or later', '2015 to 2018', '2019 or later', '2010 to 2017', '2018 to 2020', '2021 or later'];
                             var x_ticktext = ['1969 or<br>earlier', '1970 to<br>1979', '1980 to<br>1989', '1990 to<br>1999', '2000 to<br>2004', '2005 or<br>later', '2000 to<br>2009', '2010 or<br>later', '1979 or<br>earlier', '2010 to<br>2014', '2015 or<br>later', '1989 or<br>earlier', '2015 to<br>2016', '2017 or<br>later', '2015 to<br>2018', '2019 or<br>later', '2010 to<br>2017', '2018 to<br>2020', '2021 or<br>later'];
         
@@ -2017,7 +2017,7 @@ app.clientside_callback(
                             var xaxis_standoff = 20;
                             
                             var yaxis_title_text = '<b>Number of Housing Units</b>';
-                            var title_text = `<b>Housing Units by Year Householder Built In, ${selected_year}</b>`;
+                            var title_text = `<b>Housing Units by Year Householder Moved In, ${selected_year}</b>`;
                             var x_tickvals = ['1969 or earlier', '1970 to 1979', '1980 to 1989', '1990 to 1999', '2000 to 2004', '2005 or later', '2000 to 2009', '2010 or later', '1979 or earlier', '2010 to 2014', '2015 or later', '1989 or earlier', '2015 to 2016', '2017 or later', '2015 to 2018', '2019 or later', '2010 to 2017', '2018 to 2020', '2021 or later'];
                             var x_ticktext = ['1969 or<br>earlier', '1970 to<br>1979', '1980 to<br>1989', '1990 to<br>1999', '2000 to<br>2004', '2005 or<br>later', '2000 to<br>2009', '2010 or<br>later', '1979 or<br>earlier', '2010 to<br>2014', '2015 or<br>later', '1989 or<br>earlier', '2015 to<br>2016', '2017 or<br>later', '2015 to<br>2018', '2019 or<br>later', '2010 to<br>2017', '2018 to<br>2020', '2021 or<br>later'];
 
