@@ -65,7 +65,7 @@ measures_labels_list = ["Contract Rent",
                         "Housing and Occupancy",
                         "Poverty Estimates",
                         "Work Commute Estimates",
-                        # "Working Hours",
+                        "Working Hours",
                         # "Other Economic Measures"
                        ]
 measures_values_list = ['ContractRent',
@@ -77,7 +77,7 @@ measures_values_list = ['ContractRent',
                         'HousingUnitsandOccupancy',
                         'Poverty',
                         'TransportationMethodstoWork',
-                        # 'WorkHours',
+                        'WorkHours',
                         # 'CharacteristicsoftheEconomicPopulation'
                        ]
 measures_tuple = zip(measures_labels_list, measures_values_list)
@@ -255,6 +255,20 @@ for place in LA_County_values:
     dummy_tuple = zip(dummy_labels_list, dummy_values_list)
     dummy_dict['TransportationMethodstoWork'] = [{'label': html.Span([i], style = {'color': '#151E3D'}), 'value': j} for i, j in dummy_tuple]
 
+
+
+    # -- Work Hours -- #
+    dummy_labels_list = ['Usual Hours Worked Weekly',
+                         'Mean Hours Worked Weekly',
+                         'Mean Hours Worked Weekly (Over Time)',
+                        ]
+    dummy_values_list = [f'WorkHours_{place}_USUALHOURS_LONG',
+                         f'WorkHours_{place}_MEANHOURS_LONG',
+                         f'WorkHours_{place}_MEANHOURS_TIME',
+                        ]
+    dummy_tuple = zip(dummy_labels_list, dummy_values_list)
+    dummy_dict['WorkHours'] = [{'label': html.Span([i], style = {'color': '#151E3D'}), 'value': j} for i, j in dummy_tuple]
+
     
     submeasures_dict[place] = dummy_dict
 
@@ -315,6 +329,7 @@ continuous_color_dict['DarkMint'] = sorted([ [1 - i/6, px.colors.sequential.Dark
 continuous_color_dict['Magma'] = sorted([ [i/9, px.colors.sequential.Magma[i]] for i in list(range(0, 10)) ])
 continuous_color_dict['Hot'] = sorted([ [i/3, px.colors.sequential.Hot[i]] for i in list(range(0, 4)) ])
 continuous_color_dict['OrRd'] = sorted([ [1 - i/8, px.colors.sequential.OrRd[i]] for i in list(range(0, 9)) ])
+continuous_color_dict['matter'] = sorted([ [1 - i/11, px.colors.sequential.matter[i]] for i in list(range(0, 12)) ])
 
 
 
@@ -619,8 +634,7 @@ app.clientside_callback("""
         
         if ( selected_measure == 'FoodStamps' ) {
             return `<span style='font-size:22px;'>Food Stamps</span></u><br>
-            Per the 2024 American Community Survey Design & Methodology Report, <br><br>
-            "the Food and Nutrition Service of the U.S. Department of Agriculture (USDA) administers the <span style='color:#85BCC7;'>Supplemental Nutrition Assistance (Food Stamp) Program (SNAP)</span> through state and local welfare offices.
+            Per the 2024 American Community Survey Design & Methodology Report, "the Food and Nutrition Service of the U.S. Department of Agriculture (USDA) administers the <span style='color:#85BCC7;'>Supplemental Nutrition Assistance (Food Stamp) Program (SNAP)</span> through state and local welfare offices.
             This program is the major national income-support program for which all low-income and low-resource households, regardless of household characteristics, are eligible.
             This question asks if anyone in the households received SNAP benefits at any time during the 12-month period before the ACS interview."
             <br><br>
@@ -630,8 +644,7 @@ app.clientside_callback("""
         
         if ( selected_measure == 'HealthInsuranceCoverage' ) {
             return `<span style='font-size:22px;'>Health Insurance Coverage</span></u><br>
-            Per the 2024 American Community Survey Design & Methodology Report, <br><br>
-            "[the insured and uninsured population is assessed] by asking about coverage through an employer, direct purchase from an insurance company, Medicare, Medicaid or
+            Per the 2024 American Community Survey Design & Methodology Report, "[the insured and uninsured population is assessed] by asking about coverage through an employer, direct purchase from an insurance company, Medicare, Medicaid or
             other government-assistance health plans, military health care, Veterans Affairs health care, Indian Health Service, or other types of health insurance or coverage
             plans. Plans that cover only one type of health care (such as dental plans) or plans that only cover a person in case of an accident or disability are not included."
             <br><br>
@@ -641,13 +654,12 @@ app.clientside_callback("""
         
         if ( selected_measure == 'HouseholdIncome' ) {
             return `<span style='font-size:22px;'>Household Income</span></u><br>
-            <span style='color:#85BCC7;'>Income</span> is defined as <br>
-            "the sum of the amounts reported separately for wage or salary income; net self-employment income; interest, dividends, or net rental or royalty income,
+            <span style='color:#85BCC7;'>Income</span> is defined as "the sum of the amounts reported separately for wage or salary income; net self-employment income; interest, dividends, or net rental or royalty income,
             or income from estates and trusts; social security or railroad retirement income; Supplemental Security Income; public assistance or welfare payments;
             retirement, survivor, or disability pensions; and all other income. Income is reported for the past 12 months from the date of the interview. The estimates
             are inflation-adjusted using the Consumer Price Index" (2024 American Community Survey Design & Methodology Report, Chapter 6). 
             <br><br>
-            To adjust for changes in cost of living, adjustment to 2023 Consumer Price Index ("constant dollars") was conducted for data years earlier than 2023 through the
+            To adjust for changes in cost of living, adjustment to the 2023 Consumer Price Index ("constant dollars") was conducted for data years earlier than 2023 through the
             <u><a href='https://www.bls.gov/cpi/additional-resources/chained-cpi.htm'>Bureau of Labor Statistics Chained Consumer Price Index for All Urban Consumers (C-CPI-U)</a></u> series.
             <br><br>
             <span style='font-size:22px;'>Sources</span><br>
@@ -657,7 +669,7 @@ app.clientside_callback("""
         
         if ( selected_measure == 'HousingUnitsandOccupancy' ) {
             return `<span style='font-size:22px;'>Housing and Occupancy</span></u><br>
-            The reference person, or <span style='color:#85BCC7;'>householder</span> "is usually the person, or one of the people,
+            The reference person, or <span style='color:#85BCC7;'>householder</span>, is usually "the person, or one of the people,
             in whose name the home is owned, being bought, or rented and who is listed as 'Person 1' on the survey questionnaire.
             If there is no such person in the household, any adult household member 15 and older can be designated" (2024 American Community Survey Design &
             Methodology Report, Chapter 6).
@@ -699,11 +711,19 @@ app.clientside_callback("""
             <span style='font-size:22px;'>Sources</span><br>
             <u><a href='https://www2.census.gov/programs-surveys/acs/methodology/design_and_methodology/2024/acs_design_methodology_report_2024.pdf'>2024 American Community Survey Design & Methodology Report</a></u>`;
         }
+
+        if ( selected_measure == 'WorkHours' ) {
+            return `<span style='font-size:22px;'>Working Hours</span></u><br>
+            Estimates for <span style='color:#85BCC7;'>usual hours worked weekly</span> are reported for the civilian, 16 and older employed labor force.<br><br>
+            <span style='font-size:22px;'>Sources</span><br>
+            <u><a href='https://www2.census.gov/programs-surveys/acs/methodology/design_and_methodology/2024/acs_design_methodology_report_2024.pdf'>2024 American Community Survey Design & Methodology Report</a></u>`;
+        }
     }
     """,
     Output("help-text", "markdownStr"),
     Input('measure-dropdown', 'value')
 )
+
 
 
 
@@ -1019,6 +1039,22 @@ app.clientside_callback(
             var colorbar_title_text = '<b>Average<br>Travel<br>Time<br>(Mins.)</b>';
             var colorbar_tickprefix = '';
             var colorbar_ticksuffix = '<br>mins.';
+            
+            var zmin;
+            var zmax;
+            var zauto_bool = true;
+        }
+
+        if (selected_measure == 'WorkHours') {
+            var z_array = my_array.map(({ESTIMATE_Total_Population16to64years_Meanusualhoursworkedforworkers}) => ESTIMATE_Total_Population16to64years_Meanusualhoursworkedforworkers);
+            var strings = my_array.map(function(item) {
+                    return "<b style='font-size:16px;'>" + item['TRACT'] + "</b><br>" + city_string + "<br><br>"
+                    + "<span style='font-family: Trebuchet MS, sans-serif;'>Average Usual Hours Worked (" + item['YEAR'] + "): <br><b style='color:#070504; font-size:14px;'>" + item['ESTIMATE_Total_Population16to64years_Meanusualhoursworkedforworkers'] + " hours </b></span> &nbsp;&nbsp;&nbsp;&nbsp;<br><br><extra></extra>";
+                });
+            var colorscale_color = color_dict['OrRd'];
+            var colorbar_title_text = '<b>Average<br>Usual<br>Hours<br>Worked<br></b>';
+            var colorbar_tickprefix = '';
+            var colorbar_ticksuffix = '<br>hrs.';
             
             var zmin;
             var zmax;
@@ -2331,6 +2367,122 @@ app.clientside_callback(
                     
                 }
 
+                if ( selected_submeasure.startsWith("WorkHours") && selected_submeasure.includes("USUALHOURS_LONG") ) {
+                    var y1_array = my_array.map(({value_TOTAL}) => value_TOTAL);
+                    var y2_array = my_array.map(({value_MALE}) => value_MALE);
+                    var y3_array = my_array.map(({value_FEMALE}) => value_FEMALE);
+                    
+                    var xlabels_size;
+                    var x_ticktext;
+                    var x_tickvals;
+
+                    var xaxis_standoff = 20;
+                    
+                    var y1_text = y1_array.map(function(item) {
+                        return "<b style='color:#112A46; font-size:9px;'>" + item + "</b>";
+                    });
+                    var y2_text = y2_array.map(function(item) {
+                        return "<b style='color:#112A46; font-size:9px;'>" + item + "</b>";
+                    });
+                    var y3_text = y3_array.map(function(item) {
+                        return "<b style='color:#112A46; font-size:9px;'>" + item + "</b>";
+                    });
+
+                    var xaxis_title_text = '<b>Usual Hours Worked Weekly</b>';
+                    
+                    var yaxis_title_text = '<b>Number of Workers</b>';
+                    var yaxis_tickprefix = '';
+                    var yaxis_ticksuffix = '';
+                    var x_tickvals = ['Usually worked 35 hours or more per week', 'Usually worked 15 to 34 hours per week', 'Usually worked 1 to 14 hours per week'];
+                    var x_ticktext = ['35 hours or<br>more per week', '15 to 34 hours<br>per week', '1 to 14 hours<br>per week'];
+                    
+                    var title_text = `<b>Civilian Employed Workers by Usual Hours Worked, ${selected_year}</b>`;
+
+                    data1 = {
+                        'type': 'bar',
+                        'x': x_array,
+                        'y': y1_array,
+                        name: 'All Workers',
+                        'text': y1_text,
+                        'textposition': 'auto',
+                        'marker': {'line': {'color': '#111111', 'width': 1.5},
+                                   'color': 'rgb(229,216,189)'
+                                   },
+                        'textfont': {'shadow': '1px 1px 20px #FEF9F3'},
+                        'hoverinfo': 'none',
+                        'hovertemplate': null
+                    };
+                    
+                    data2 = {
+                        'type': 'bar',
+                        'x': x_array,
+                        'y': y2_array,
+                        name: 'Male Workers',
+                        'text': y2_text,
+                        'textposition': 'auto',
+                        'marker': {'line': {'color': '#111111', 'width': 1.5},
+                                   'color': 'rgb(179,205,227)'
+                                   },
+                        'textfont': {'shadow': '1px 1px 20px #FEF9F3'},
+                        'hoverinfo': 'none',
+                        'hovertemplate': null
+                    };
+
+                    data3 = {
+                        'type': 'bar',
+                        'x': x_array,
+                        'y': y3_array,
+                        name: 'Female Workers',
+                        'text': y3_text,
+                        'textposition': 'auto',
+                        'marker': {'line': {'color': '#111111', 'width': 1.5},
+                                   'color': 'rgb(244,202,228)'
+                                   },
+                        'textfont': {'shadow': '1px 1px 20px #FEF9F3'},
+                        'hoverinfo': 'none',
+                        'hovertemplate': null
+                    };
+
+                    var data = [data1, data2, data3];
+                }
+
+                if ( selected_submeasure.startsWith("WorkHours") && selected_submeasure.includes("MEANHOURS_LONG") ) {
+                    var y_array = my_array.map(({value}) => value);
+                        
+                    var text = y_array.map(function(item) {
+                        return "<b style='color:#112A46; font-size:12px;'>" + item + "<br>hours</b>";
+                    });
+
+                    var xaxis_title_text = '<b></b>';
+                    var yaxis_tickprefix = '';
+                    var yaxis_ticksuffix = '';
+                    var xlabels_size = 12;
+                    var xaxis_standoff = 20;
+                    
+                    var yaxis_title_text = '<b>Mean Hours Worked Weekly</b>';
+                    var title_text = `<b>Civilian Employed Workers by Mean Hours Worked, ${selected_year}</b>`;
+                    var x_tickvals = ['Total', 'Male', 'Female'];
+                    var x_ticktext = ['All<br>Workers', 'Male<br>Workers', 'Female<br>Workers'];
+
+                    var data = [{
+                        'type': 'bar',
+                        'x': x_array,
+                        'y': y_array,
+                        'text': text,
+                        'textposition': 'auto',
+                        'marker': {'color': ['rgb(229,216,189)', 'rgb(179,205,227)', 'rgb(244,202,228)'],
+                                   'line': {'color': '#111111', 'width': 1.5}
+                                   },
+                        'textfont': {'shadow': '1px 1px 20px #FEF9F3'},
+                        'hoverinfo': 'none',
+                        'hovertemplate': null
+                    }];
+                    
+                }
+
+
+                
+
                 
                 
         
@@ -2942,10 +3094,57 @@ app.clientside_callback(
                     var yaxis_tickprefix = '';
                     var yaxis_ticksuffix = '%';
                 }
+
+                if ( selected_submeasure.startsWith("WorkHours") && selected_submeasure.includes("MEANHOURS_TIME")  ) {
+                    var y1_array = my_array.map(({Total}) => Total);
+                    var y2_array = my_array.map(({Male}) => Male);
+                    var y3_array = my_array.map(({Female}) => Female);
+
+                    var data1 = {
+                         'type': 'scatter',
+                         'mode': 'lines+markers',
+                         'x': x_array,
+                         'y': y1_array,
+                         'name': 'All<br>Workers',
+                         'line': {'color': 'rgb(194, 163, 99)'},
+                         'hoverinfo': 'none',
+                         'hovertemplate': null
+                    };
+
+                    var data2 = {
+                         'type': 'scatter',
+                         'mode': 'lines+markers',
+                         'x': x_array,
+                         'y': y2_array,
+                         'name': 'Male<br>Workers',
+                         'line': {'color': 'rgb(90, 146, 194)'},
+                         'hoverinfo': 'none',
+                         'hovertemplate': null
+                    };
+
+                    var data3 = {
+                         'type': 'scatter',
+                         'mode': 'lines+markers',
+                         'x': x_array,
+                         'y': y3_array,
+                         'name': 'Female<br>Workers',
+                         'line': {'color': 'rgb(221, 91, 172)'},
+                         'hoverinfo': 'none',
+                         'hovertemplate': null
+                    };
+                    
+                    var data = [data1, data2, data3];
+
+                    var yaxis_title_text = '<b>Mean Hours Worked Weekly</b>';
+                    var title_text = `<b>Mean Hours Worked Weekly, ${Math.min(...x_array)} to ${Math.max(...x_array)}</b>`;
+                    
+                    var yaxis_tickprefix = '';
+                    var yaxis_ticksuffix = '';
+                }
                 
                 var layout = {
                     'margin': {'b': 100, 't': 100, 'r': 80},
-                    'xaxis': {'title': {'text': '<b>Year</b>', 'standoff': 10},
+                    'xaxis': {'title': {'text': '<b>Year</b>', 'standoff': 20},
                               'showgrid': false,
                               'tick0': Math.min(...x_array),
                               'dtick': 2
