@@ -66,7 +66,7 @@ measures_labels_list = ["Contract Rent",
                         "Poverty Estimates",
                         "Work Commute Estimates",
                         "Working Hours",
-                        # "Other Economic Measures"
+                        "Other Economic Measures"
                        ]
 measures_values_list = ['ContractRent',
                         'RentBurden',
@@ -78,7 +78,7 @@ measures_values_list = ['ContractRent',
                         'Poverty',
                         'TransportationMethodstoWork',
                         'WorkHours',
-                        # 'CharacteristicsoftheEconomicPopulation'
+                        'CharacteristicsoftheEconomicPopulation'
                        ]
 measures_tuple = zip(measures_labels_list, measures_values_list)
 measures_options = [{'label': html.Span([i], style = {'color': '#151E3D'}), 'value': j} for i, j in measures_tuple]
@@ -269,6 +269,20 @@ for place in LA_County_values:
     dummy_tuple = zip(dummy_labels_list, dummy_values_list)
     dummy_dict['WorkHours'] = [{'label': html.Span([i], style = {'color': '#151E3D'}), 'value': j} for i, j in dummy_tuple]
 
+
+
+    # -- Characteristics of the Economic Population -- #
+    dummy_labels_list = ['Civilian Workers by Industry',
+                         'Civilian Workers by Occupation',
+                         'Civilian Workers by Sector',
+                        ]
+    dummy_values_list = [f'CharacteristicsoftheEconomicPopulation_{place}_INDUSTRY_LONG',
+                         f'CharacteristicsoftheEconomicPopulation_{place}_OCCUPATION_LONG',
+                         f'CharacteristicsoftheEconomicPopulation_{place}_CLASS_LONG',
+                        ]
+    dummy_tuple = zip(dummy_labels_list, dummy_values_list)
+    dummy_dict['CharacteristicsoftheEconomicPopulation'] = [{'label': html.Span([i], style = {'color': '#151E3D'}), 'value': j} for i, j in dummy_tuple]
+
     
     submeasures_dict[place] = dummy_dict
 
@@ -308,6 +322,7 @@ discrete_color_dict['Magma'] = px.colors.sequential.Magma
 discrete_color_dict['Oranges'] = px.colors.sequential.Oranges[0:7] + ['rgb(149, 49, 3)', 'rgb(133, 43, 2)']
 discrete_color_dict['GnBu'] = px.colors.sequential.GnBu
 discrete_color_dict['Pastel2'] = px.colors.qualitative.Pastel2 + ['rgb(179,205,227)']
+discrete_color_dict['Set3'] = px.colors.qualitative.Set3 + ['rgb(251,180,174)']
 
 
 # Colorblind-safe colors: https://colorbrewer2.org/
@@ -718,6 +733,17 @@ app.clientside_callback("""
             <span style='font-size:22px;'>Sources</span><br>
             <u><a href='https://www2.census.gov/programs-surveys/acs/methodology/design_and_methodology/2024/acs_design_methodology_report_2024.pdf'>2024 American Community Survey Design & Methodology Report</a></u>`;
         }
+
+        if ( selected_measure == 'CharacteristicsoftheEconomicPopulation' ) {
+            return `<span style='font-size:22px;'>Other Economic Measures</span></u><br>
+            Estimates are reported for the civilian, 16 and older employed labor force.<br><br>
+            <span style='color:#85BCC7;'>Industry</span> refers to the particular sphere of trade a civilian worker is employed in.<br><br>
+            <span style='color:#85BCC7;'>Occupation</span> relates to the services associated with a civilian worker's employment.<br><br>
+            <span style='color:#85BCC7;'>Sector</span> refers to the relative jurisdiction under which a civilian worker's employment is conducted (i.e.
+            'private-sector', 'public-sector', self-employed, and family work).<br><br>
+            <span style='font-size:22px;'>Sources</span><br>
+            <u><a href='https://www2.census.gov/programs-surveys/acs/methodology/design_and_methodology/2024/acs_design_methodology_report_2024.pdf'>2024 American Community Survey Design & Methodology Report</a></u>`;
+        }
     }
     """,
     Output("help-text", "markdownStr"),
@@ -1055,6 +1081,22 @@ app.clientside_callback(
             var colorbar_title_text = '<b>Average<br>Usual<br>Hours<br>Worked<br></b>';
             var colorbar_tickprefix = '';
             var colorbar_ticksuffix = '<br>hrs.';
+            
+            var zmin;
+            var zmax;
+            var zauto_bool = true;
+        }
+
+        if (selected_measure == 'CharacteristicsoftheEconomicPopulation') {
+            var z_array = my_array.map(({ESTIMATE_EMPLOYMENTSTATUS_Population16yearsandover_Inlaborforce_Civilianlaborforce}) => ESTIMATE_EMPLOYMENTSTATUS_Population16yearsandover_Inlaborforce_Civilianlaborforce);
+            var strings = my_array.map(function(item) {
+                    return "<b style='font-size:16px;'>" + item['TRACT'] + "</b><br>" + city_string + "<br><br>"
+                    + "<span style='font-family: Trebuchet MS, sans-serif;'>Number of Civilian Employed Workers (" + item['YEAR'] + "): <br><b style='color:#070504; font-size:14px;'>" + item['ESTIMATE_EMPLOYMENTSTATUS_Population16yearsandover_Inlaborforce_Civilianlaborforce'] + " </b></span> &nbsp;&nbsp;&nbsp;&nbsp;<br><br><extra></extra>";
+                });
+            var colorscale_color = color_dict['Emrld'];
+            var colorbar_title_text = '<b>Civilian<br>Employed<br>Workers</b>';
+            var colorbar_tickprefix = '';
+            var colorbar_ticksuffix = '';
             
             var zmin;
             var zmax;
@@ -1977,7 +2019,7 @@ app.clientside_callback(
                             var xaxis_standoff = 20;
                             
                             var yaxis_title_text = '<b>Number of Housing Units</b>';
-                            var title_text = `<b>Housing Units by Year Householder Moved In, ${selected_year}</b>`;
+                            var title_text = `<b>Housing Units by Year Householder Built In, ${selected_year}</b>`;
                             var x_tickvals = ['1969 or earlier', '1970 to 1979', '1980 to 1989', '1990 to 1999', '2000 to 2004', '2005 or later', '2000 to 2009', '2010 or later', '1979 or earlier', '2010 to 2014', '2015 or later', '1989 or earlier', '2015 to 2016', '2017 or later', '2015 to 2018', '2019 or later', '2010 to 2017', '2018 to 2020', '2021 or later'];
                             var x_ticktext = ['1969 or<br>earlier', '1970 to<br>1979', '1980 to<br>1989', '1990 to<br>1999', '2000 to<br>2004', '2005 or<br>later', '2000 to<br>2009', '2010 or<br>later', '1979 or<br>earlier', '2010 to<br>2014', '2015 or<br>later', '1989 or<br>earlier', '2015 to<br>2016', '2017 or<br>later', '2015 to<br>2018', '2019 or<br>later', '2010 to<br>2017', '2018 to<br>2020', '2021 or<br>later'];
         
@@ -2017,7 +2059,7 @@ app.clientside_callback(
                             var xaxis_standoff = 20;
                             
                             var yaxis_title_text = '<b>Number of Housing Units</b>';
-                            var title_text = `<b>Housing Units by Year Householder Moved In, ${selected_year}</b>`;
+                            var title_text = `<b>Housing Units by Year Householder Built In, ${selected_year}</b>`;
                             var x_tickvals = ['1969 or earlier', '1970 to 1979', '1980 to 1989', '1990 to 1999', '2000 to 2004', '2005 or later', '2000 to 2009', '2010 or later', '1979 or earlier', '2010 to 2014', '2015 or later', '1989 or earlier', '2015 to 2016', '2017 or later', '2015 to 2018', '2019 or later', '2010 to 2017', '2018 to 2020', '2021 or later'];
                             var x_ticktext = ['1969 or<br>earlier', '1970 to<br>1979', '1980 to<br>1989', '1990 to<br>1999', '2000 to<br>2004', '2005 or<br>later', '2000 to<br>2009', '2010 or<br>later', '1979 or<br>earlier', '2010 to<br>2014', '2015 or<br>later', '1989 or<br>earlier', '2015 to<br>2016', '2017 or<br>later', '2015 to<br>2018', '2019 or<br>later', '2010 to<br>2017', '2018 to<br>2020', '2021 or<br>later'];
 
@@ -2471,6 +2513,65 @@ app.clientside_callback(
                         'text': text,
                         'textposition': 'auto',
                         'marker': {'color': ['rgb(229,216,189)', 'rgb(179,205,227)', 'rgb(244,202,228)'],
+                                   'line': {'color': '#111111', 'width': 1.5}
+                                   },
+                        'textfont': {'shadow': '1px 1px 20px #FEF9F3'},
+                        'hoverinfo': 'none',
+                        'hovertemplate': null
+                    }];
+                    
+                }
+
+                if ( selected_submeasure.startsWith("CharacteristicsoftheEconomicPopulation")  ) {
+                    var y_array = my_array.map(({value}) => value);
+                    var xlabels_size;
+                    var x_ticktext;
+                    var x_tickvals;
+                    
+                    var text = y_array.map(function(item) {
+                        return "<b style='color:#112A46; font-size:12px;'>" + item + "</b>";
+                    });
+
+                    var yaxis_title_text = '<b>Number of Civilian Workers</b>';
+                    var yaxis_tickprefix = '';
+                    var yaxis_ticksuffix = '';
+
+                    if (selected_submeasure.includes("INDUSTRY")){
+                        var title_text = `<b>Civilian Workers by Industry, ${selected_year}</b>`;
+                        var color_array = discrete_color_dict['Set3'];
+                        
+                        var x_tickvals = ['Agriculture, forestry, fishing and hunting, and mining', 'Construction', 'Manufacturing', 'Wholesale trade', 'Retail trade', 'Transportation and warehousing, and utilities', 'Information', 'Finance and insurance, and real estate and rental and leasing', 'Professional, scientific, and management, and administrative and waste management services', 'Educational services, and health care and social assistance', 'Arts, entertainment, and recreation, and accommodation and food services', 'Other services, except public administration', 'Public administration'];
+                        var x_ticktext = ['Agriculture, forestry,<br>fishing, hunting<br>and mining', 'Construction', 'Manufacturing', 'Wholesale trade', 'Retail trade', 'Transportation,<br>warehousing,<br>utilities', 'Information', 'Finance, insurance,<br>real estate, rental<br>and leasing', 'Professional, scientific,<br>management, admin.,<br>waste management', 'Education,<br>healthcare,<br>social assistance', 'Arts, entertainment,<br>recreation, shelter,<br>and food', 'Other services', 'Public<br>administration'];
+                        var xlabels_size = 8;
+                    
+                    } else if (selected_submeasure.includes("OCCUPATION")){
+                        var title_text = `<b>Civilian Workers by Occupation, ${selected_year}</b>`;
+                        var xaxis_title_text = '<b>Occupation</b>';
+                        var color_array = discrete_color_dict['Pastel2'];
+                        
+                        var x_tickvals = ['Management, business, science, and arts occupations', 'Service occupations', 'Sales and office occupations', 'Natural resources, construction, and maintenance occupations', 'Production, transportation, and material moving occupations'];
+                        var x_ticktext = ['Managerial,<br>business,<br>science, and arts', 'Services', 'Sales and office', 'Natural resources,<br>construction,<br>maintenance', 'Production,<br>transportation,<br>material moving'];
+                        var xlabels_size = 11;
+                        var xaxis_standoff = 20;
+                    
+                    } else if (selected_submeasure.includes("CLASS")){
+                        var title_text = `<b>Civilian Workers by Sector, ${selected_year}</b>`;
+                        var xaxis_title_text = '<b>Sector</b>';
+                        var color_array = discrete_color_dict['Pastel2'];
+                        
+                        var x_tickvals = ['Private wage and salaried workers', 'Government workers', 'Self-employed in own/unincorporated business workers', 'Unpaid family workers'];
+                        var x_ticktext = ['Private wage and<br>salaried workers', 'Government<br>workers', 'Self-employed<br>workers', 'Unpaid family<br>workers'];
+                        var xlabels_size = 12;
+                        var xaxis_standoff = 20;
+                    }
+
+                    var data = [{
+                        'type': 'bar',
+                        'x': x_array,
+                        'y': y_array,
+                        'text': text,
+                        'textposition': 'auto',
+                        'marker': {'color': color_array,
                                    'line': {'color': '#111111', 'width': 1.5}
                                    },
                         'textfont': {'shadow': '1px 1px 20px #FEF9F3'},
