@@ -2677,7 +2677,7 @@ app.clientside_callback(
                         var xlabels_size = 12;
                         var xaxis_standoff = 20;
                         
-                    } else if (selected_submeasure.includes("_INDUSTRY") && selected_submeasure.includes("EARNINGS_")){
+                    } else if (selected_submeasure.includes("EARNINGS")){
                         var title_text = `<b>Median Earnings for All Civilian Workers by Industry, ${selected_year}</b>`;
                         if (selected_submeasure.includes("FULL")){
                             var title_text = `<b>Median Earnings for Full-Time Civilian Workers by Industry, ${selected_year}</b>`;
