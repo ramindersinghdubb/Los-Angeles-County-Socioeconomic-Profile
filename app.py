@@ -2649,7 +2649,7 @@ app.clientside_callback(
                     var yaxis_tickprefix = '';
                     var yaxis_ticksuffix = '';
 
-                    if (selected_submeasure.includes("INDUSTRY")){
+                    if (selected_submeasure.includes("_INDUSTRY_")){
                         var title_text = `<b>Civilian Workers by Industry, ${selected_year}</b>`;
                         var color_array = discrete_color_dict['Set3'];
                         
@@ -2676,7 +2676,8 @@ app.clientside_callback(
                         var x_ticktext = ['Private wage and<br>salaried workers', 'Government<br>workers', 'Self-employed<br>workers', 'Unpaid family<br>workers'];
                         var xlabels_size = 12;
                         var xaxis_standoff = 20;
-                    } else if ( selected_submeasure.includes("EARNINGS_") ){
+                        
+                    } else if (selected_submeasure.includes("_INDUSTRY") && selected_submeasure.includes("EARNINGS_")){
                         var title_text = `<b>Median Earnings for All Civilian Workers by Industry, ${selected_year}</b>`;
                         if (selected_submeasure.includes("FULL")){
                             var title_text = `<b>Median Earnings for Full-Time Civilian Workers by Industry, ${selected_year}</b>`;
