@@ -277,10 +277,14 @@ for place in LA_County_values:
     dummy_labels_list = ['Civilian Workers by Industry',
                          'Civilian Workers by Occupation',
                          'Civilian Workers by Sector',
+                         'Median Earnings for All Workers by Industry',
+                         'Median Earnings for Full-Time Workers by Industry'
                         ]
     dummy_values_list = [f'CharacteristicsoftheEconomicPopulation_{place}_INDUSTRY_LONG',
                          f'CharacteristicsoftheEconomicPopulation_{place}_OCCUPATION_LONG',
                          f'CharacteristicsoftheEconomicPopulation_{place}_CLASS_LONG',
+                         f'CharacteristicsoftheEconomicPopulation_{place}_INDUSTRYEARNINGS_LONG',
+                         f'CharacteristicsoftheEconomicPopulation_{place}_INDUSTRYFULLEARNINGS_LONG'
                         ]
     dummy_tuple = zip(dummy_labels_list, dummy_values_list)
     dummy_dict['CharacteristicsoftheEconomicPopulation'] = [{'label': html.Span([i], style = {'color': '#151E3D'}), 'value': j} for i, j in dummy_tuple]
@@ -2672,6 +2676,26 @@ app.clientside_callback(
                         var x_ticktext = ['Private wage and<br>salaried workers', 'Government<br>workers', 'Self-employed<br>workers', 'Unpaid family<br>workers'];
                         var xlabels_size = 12;
                         var xaxis_standoff = 20;
+                    } else if (selected_submeasure.includes("_INDUSTRY") && selected_submeasure.includes("EARNINGS_")){
+                        var title_text = `<b>Median Earnings for All Civilian Workers by Industry, ${selected_year}</b>`;
+                        if (selected_submeasure.includes("FULL")){
+                            var title_text = `<b>Median Earnings for Full-Time Civilian Workers by Industry, ${selected_year}</b>`;
+                        }
+                        var color_array = discrete_color_dict['Set3'];
+
+                        var yaxis_tickprefix = '$';
+                        var y_array = my_array.map(({value_TOTAL}) => value_TOTAL);
+
+                        var ystr_array = my_array.map(({value_TOTAL_string}) => value_TOTAL_string);
+                        var text = ystr_array.map(function(item) {
+                            return "<b style='color:#112A46; font-size:10px;'>" + item + "</b>";
+                        });
+                        var yaxis_title_text = '<b>Earnings ($)</b>';
+                        
+                        var x_tickvals = ['Agriculture, forestry, fishing and hunting, and mining', 'Construction', 'Manufacturing', 'Wholesale trade', 'Retail trade', 'Transportation and warehousing, and utilities', 'Information', 'Finance and insurance, and real estate and rental and leasing', 'Professional, scientific, and management, and administrative and waste management services', 'Educational services, and health care and social assistance', 'Arts, entertainment, and recreation, and accommodation and food services', 'Other services, except public administration', 'Public administration'];
+                        var x_ticktext = ['Agriculture, forestry,<br>fishing, hunting<br>and mining', 'Construction', 'Manufacturing', 'Wholesale trade', 'Retail trade', 'Transportation,<br>warehousing,<br>utilities', 'Information', 'Finance, insurance,<br>real estate, rental<br>and leasing', 'Professional, scientific,<br>management, admin.,<br>waste management', 'Education,<br>healthcare,<br>social assistance', 'Arts, entertainment,<br>recreation, shelter,<br>and food', 'Other services', 'Public<br>administration'];
+                        var xlabels_size = 8;
+                    
                     }
 
                     var data = [{
