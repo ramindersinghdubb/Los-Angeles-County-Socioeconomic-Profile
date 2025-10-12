@@ -2649,7 +2649,7 @@ app.clientside_callback(
                     var yaxis_tickprefix = '';
                     var yaxis_ticksuffix = '';
 
-                    if (selected_submeasure.includes("_INDUSTRY_")){
+                    if (selected_submeasure.includes("INDUSTRY_LONG")){
                         var title_text = `<b>Civilian Workers by Industry, ${selected_year}</b>`;
                         var color_array = discrete_color_dict['Set3'];
                         
