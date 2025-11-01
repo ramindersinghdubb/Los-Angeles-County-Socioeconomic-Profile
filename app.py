@@ -103,8 +103,8 @@ submeasures_dict = dict()
 dummy_labels_list = ['Distribution of Contract Rents',
                      'Contract Rents Over Time'
                     ]
-dummy_values_list = [f'ContractRent_{place}_LONG',
-                     f'ContractRent_{place}_TIME'
+dummy_values_list = [f'ContractRent_LONG',
+                     f'ContractRent_TIME'
                     ]
 dummy_tuple = zip(dummy_labels_list, dummy_values_list)
 submeasures_dict['ContractRent'] = [{'label': html.Span([i], style = {'color': '#151E3D'}), 'value': j} for i, j in dummy_tuple]
@@ -117,9 +117,9 @@ dummy_labels_list = ['Rent/Severe Rent Burden Over Time', 'Rent Burden and Sever
                      'Rent Burden by Age (Over Time)', 'Rent Burden by Age',
                      'Rent Burden by Income (Over Time)', 'Rent Burden by Income',
                     ]
-dummy_values_list = [f'RentBurden_{place}_TIME', f'RentBurden_{place}_LONG',
-                     f'RentBurden_{place}_AGE_TIME', f'RentBurden_{place}_AGE_LONG',
-                     f'RentBurden_{place}_INCOME_TIME', f'RentBurden_{place}_INCOME_LONG',
+dummy_values_list = [f'RentBurden_TIME', f'RentBurden_LONG',
+                     f'RentBurden_AGE_TIME', f'RentBurden_AGE_LONG',
+                     f'RentBurden_INCOME_TIME', f'RentBurden_INCOME_LONG',
                     ]
 dummy_tuple = zip(dummy_labels_list, dummy_values_list)
 submeasures_dict['RentBurden'] = [{'label': html.Span([i], style = {'color': '#151E3D'}), 'value': j} for i, j in dummy_tuple]
@@ -138,15 +138,15 @@ dummy_labels_list = ['Unemp. Rate by Race (Over Time)', 'Unemployment Rate by Ra
                      'LFPR by Education (Over Time)', 'LFPR by Education',
                      'EPOP by Education (Over Time)', 'EPOP by Education',
                     ]
-dummy_values_list = [f'EmploymentStatistics_{place}_UNEMP_RACE_TIME', f'EmploymentStatistics_{place}_UNEMP_RACE_LONG',
-                     f'EmploymentStatistics_{place}_LFPR_RACE_TIME', f'EmploymentStatistics_{place}_LFPR_RACE_LONG',
-                     f'EmploymentStatistics_{place}_EPOP_RACE_TIME', f'EmploymentStatistics_{place}_EPOP_RACE_LONG',
-                     f'EmploymentStatistics_{place}_UNEMP_SEX_TIME', f'EmploymentStatistics_{place}_UNEMP_SEX_LONG',
-                     f'EmploymentStatistics_{place}_LFPR_SEX_TIME', f'EmploymentStatistics_{place}_LFPR_SEX_LONG',
-                     f'EmploymentStatistics_{place}_EPOP_SEX_TIME', f'EmploymentStatistics_{place}_EPOP_SEX_LONG',
-                     f'EmploymentStatistics_{place}_UNEMP_EDUCATIONALSTATUS_TIME', f'EmploymentStatistics_{place}_UNEMP_EDUCATIONALSTATUS_LONG',
-                     f'EmploymentStatistics_{place}_LFPR_EDUCATIONALSTATUS_TIME', f'EmploymentStatistics_{place}_LFPR_EDUCATIONALSTATUS_LONG',
-                     f'EmploymentStatistics_{place}_EPOP_EDUCATIONALSTATUS_TIME', f'EmploymentStatistics_{place}_EPOP_EDUCATIONALSTATUS_LONG',
+dummy_values_list = [f'EmploymentStatistics_UNEMP_RACE_TIME', f'EmploymentStatistics_UNEMP_RACE_LONG',
+                     f'EmploymentStatistics_LFPR_RACE_TIME', f'EmploymentStatistics_LFPR_RACE_LONG',
+                     f'EmploymentStatistics_EPOP_RACE_TIME', f'EmploymentStatistics_EPOP_RACE_LONG',
+                     f'EmploymentStatistics_UNEMP_SEX_TIME', f'EmploymentStatistics_UNEMP_SEX_LONG',
+                     f'EmploymentStatistics_LFPR_SEX_TIME', f'EmploymentStatistics_LFPR_SEX_LONG',
+                     f'EmploymentStatistics_EPOP_SEX_TIME', f'EmploymentStatistics_EPOP_SEX_LONG',
+                     f'EmploymentStatistics_UNEMP_EDUCATIONALSTATUS_TIME', f'EmploymentStatistics_UNEMP_EDUCATIONALSTATUS_LONG',
+                     f'EmploymentStatistics_LFPR_EDUCATIONALSTATUS_TIME', f'EmploymentStatistics_LFPR_EDUCATIONALSTATUS_LONG',
+                     f'EmploymentStatistics_EPOP_EDUCATIONALSTATUS_TIME', f'EmploymentStatistics_EPOP_EDUCATIONALSTATUS_LONG',
                     ]
 dummy_tuple = zip(dummy_labels_list, dummy_values_list)
 submeasures_dict['EmploymentStatistics'] = [{'label': html.Span([i], style = {'color': '#151E3D'}), 'value': j} for i, j in dummy_tuple]
@@ -160,10 +160,10 @@ dummy_labels_list = ['Food Stamps Recipients (by Race)',
                      'Food Stamps Recipients (by Disability Status)',
                      'Food Stamps Recipients (by Working Status)',
                     ]
-dummy_values_list = [f'FoodStamps_{place}_RACE_LONG',
-                     f'FoodStamps_{place}_POVERTY_LONG',
-                     f'FoodStamps_{place}_DISABILITYSTATUS_LONG',
-                     f'FoodStamps_{place}_WORKINGSTATUS_LONG'
+dummy_values_list = [f'FoodStamps_RACE_LONG',
+                     f'FoodStamps_POVERTY_LONG',
+                     f'FoodStamps_DISABILITYSTATUS_LONG',
+                     f'FoodStamps_WORKINGSTATUS_LONG'
                     ]
 dummy_tuple = zip(dummy_labels_list, dummy_values_list)
 submeasures_dict['FoodStamps'] = [{'label': html.Span([i], style = {'color': '#151E3D'}), 'value': j} for i, j in dummy_tuple]
@@ -177,10 +177,10 @@ dummy_labels_list = ['Income Distribution (for Households)',
                      'Income Distribution (for Married Couples)',
                      'Income Distribution (for Nonfamily Households)',
                     ]
-dummy_values_list = [f'HouseholdIncome_{place}_HOUSEHOLDS_LONG',
-                     f'HouseholdIncome_{place}_FAMILIES_LONG', 
-                     f'HouseholdIncome_{place}_MARRIEDCOUPLEFAMILIES_LONG',
-                     f'HouseholdIncome_{place}_NONFAMILYHOUSEHOLDS_LONG'
+dummy_values_list = [f'HouseholdIncome_HOUSEHOLDS_LONG',
+                     f'HouseholdIncome_FAMILIES_LONG', 
+                     f'HouseholdIncome_MARRIEDCOUPLEFAMILIES_LONG',
+                     f'HouseholdIncome_NONFAMILYHOUSEHOLDS_LONG'
                     ]
 dummy_tuple = zip(dummy_labels_list, dummy_values_list)
 submeasures_dict['HouseholdIncome'] = [{'label': html.Span([i], style = {'color': '#151E3D'}), 'value': j} for i, j in dummy_tuple]
@@ -201,17 +201,17 @@ dummy_labels_list = ['Home Values (Owner-Occupied Units)',
                      'Monthly Owner Costs for Units with Mortgage',
                      'Year Householder Moved In'
                     ]
-dummy_values_list = [f'HousingUnitsandOccupancy_{place}_HOMEVALUE_LONG',
-                     f'HousingUnitsandOccupancy_{place}_RACE_HOUSINGUNITS_LONG',
-                     f'HousingUnitsandOccupancy_{place}_AGE_HOUSINGUNITS_LONG',
-                     f'HousingUnitsandOccupancy_{place}_YEARBUILT_LONG',
-                     f'HousingUnitsandOccupancy_{place}_UNITROOMS_LONG',
-                     f'HousingUnitsandOccupancy_{place}_UNITBEDROOMS_LONG',
-                     f'HousingUnitsandOccupancy_{place}_HEATINGFUEL_LONG',
-                     f'HousingUnitsandOccupancy_{place}_LACKINGFACILITIES_LONG',
-                     f'HousingUnitsandOccupancy_{place}_OCCUPANTSPERROOM_LONG',
-                     f'HousingUnitsandOccupancy_{place}_MORTGAGESMOC_LONG',
-                     f'HousingUnitsandOccupancy_{place}_YEARMOVEDIN_LONG'
+dummy_values_list = [f'HousingUnitsandOccupancy_HOMEVALUE_LONG',
+                     f'HousingUnitsandOccupancy_RACE_HOUSINGUNITS_LONG',
+                     f'HousingUnitsandOccupancy_AGE_HOUSINGUNITS_LONG',
+                     f'HousingUnitsandOccupancy_YEARBUILT_LONG',
+                     f'HousingUnitsandOccupancy_UNITROOMS_LONG',
+                     f'HousingUnitsandOccupancy_UNITBEDROOMS_LONG',
+                     f'HousingUnitsandOccupancy_HEATINGFUEL_LONG',
+                     f'HousingUnitsandOccupancy_LACKINGFACILITIES_LONG',
+                     f'HousingUnitsandOccupancy_OCCUPANTSPERROOM_LONG',
+                     f'HousingUnitsandOccupancy_MORTGAGESMOC_LONG',
+                     f'HousingUnitsandOccupancy_YEARMOVEDIN_LONG'
                     ]
 dummy_tuple = zip(dummy_labels_list, dummy_values_list)
 submeasures_dict['HousingUnitsandOccupancy'] = [{'label': html.Span([i], style = {'color': '#151E3D'}), 'value': j} for i, j in dummy_tuple]
@@ -222,7 +222,7 @@ submeasures_dict['HousingUnitsandOccupancy'] = [{'label': html.Span([i], style =
 # -- Poverty -- #
 dummy_labels_list = ['Distribution of Poverty by Race',
                     ]
-dummy_values_list = [f'Poverty_{place}_RACE_LONG',
+dummy_values_list = [f'Poverty_RACE_LONG',
                     ]
 dummy_tuple = zip(dummy_labels_list, dummy_values_list)
 submeasures_dict['Poverty'] = [{'label': html.Span([i], style = {'color': '#151E3D'}), 'value': j} for i, j in dummy_tuple]
@@ -233,7 +233,7 @@ submeasures_dict['Poverty'] = [{'label': html.Span([i], style = {'color': '#151E
 # -- Health Insurance Coverage -- #
 dummy_labels_list = ['Insurance Coverage by Race',
                     ]
-dummy_values_list = [f'HealthInsuranceCoverage_{place}_RACE_LONG',
+dummy_values_list = [f'HealthInsuranceCoverage_RACE_LONG',
                     ]
 dummy_tuple = zip(dummy_labels_list, dummy_values_list)
 submeasures_dict['HealthInsuranceCoverage'] = [{'label': html.Span([i], style = {'color': '#151E3D'}), 'value': j} for i, j in dummy_tuple]
@@ -247,10 +247,10 @@ dummy_labels_list = ['Commute Methods to Work',
                      'Travel Times',
                      'Vehicles Available'
                     ]
-dummy_values_list = [f'TransportationMethodstoWork_{place}_METHODSTOWORK_LONG',
-                     f'TransportationMethodstoWork_{place}_DEPARTURE_LONG',
-                     f'TransportationMethodstoWork_{place}_TRAVEL_LONG',
-                     f'TransportationMethodstoWork_{place}_VEHICLESAVAILABLE_LONG'
+dummy_values_list = [f'TransportationMethodstoWork_METHODSTOWORK_LONG',
+                     f'TransportationMethodstoWork_DEPARTURE_LONG',
+                     f'TransportationMethodstoWork_TRAVEL_LONG',
+                     f'TransportationMethodstoWork_VEHICLESAVAILABLE_LONG'
                     ]
 dummy_tuple = zip(dummy_labels_list, dummy_values_list)
 submeasures_dict['TransportationMethodstoWork'] = [{'label': html.Span([i], style = {'color': '#151E3D'}), 'value': j} for i, j in dummy_tuple]
@@ -262,9 +262,9 @@ dummy_labels_list = ['Usual Hours Worked Weekly',
                      'Mean Hours Worked Weekly',
                      'Mean Hours Worked Weekly (Over Time)',
                     ]
-dummy_values_list = [f'WorkHours_{place}_USUALHOURS_LONG',
-                     f'WorkHours_{place}_MEANHOURS_LONG',
-                     f'WorkHours_{place}_MEANHOURS_TIME',
+dummy_values_list = [f'WorkHours_USUALHOURS_LONG',
+                     f'WorkHours_MEANHOURS_LONG',
+                     f'WorkHours_MEANHOURS_TIME',
                     ]
 dummy_tuple = zip(dummy_labels_list, dummy_values_list)
 submeasures_dict['WorkHours'] = [{'label': html.Span([i], style = {'color': '#151E3D'}), 'value': j} for i, j in dummy_tuple]
@@ -278,11 +278,11 @@ dummy_labels_list = ['Civilian Workers by Industry',
                      'Median Earnings for All Workers by Industry',
                      'Median Earnings for Full-Time Workers by Industry'
                     ]
-dummy_values_list = [f'CharacteristicsoftheEconomicPopulation_{place}_INDUSTRY_LONG',
-                     f'CharacteristicsoftheEconomicPopulation_{place}_OCCUPATION_LONG',
-                     f'CharacteristicsoftheEconomicPopulation_{place}_CLASS_LONG',
-                     f'CharacteristicsoftheEconomicPopulation_{place}_INDUSTRYEARNINGS_LONG',
-                     f'CharacteristicsoftheEconomicPopulation_{place}_INDUSTRYFULLEARNINGS_LONG'
+dummy_values_list = [f'CharacteristicsoftheEconomicPopulation_INDUSTRY_LONG',
+                     f'CharacteristicsoftheEconomicPopulation_OCCUPATION_LONG',
+                     f'CharacteristicsoftheEconomicPopulation_CLASS_LONG',
+                     f'CharacteristicsoftheEconomicPopulation_INDUSTRYEARNINGS_LONG',
+                     f'CharacteristicsoftheEconomicPopulation_INDUSTRYFULLEARNINGS_LONG'
                     ]
 dummy_tuple = zip(dummy_labels_list, dummy_values_list)
 submeasures_dict['CharacteristicsoftheEconomicPopulation'] = [{'label': html.Span([i], style = {'color': '#151E3D'}), 'value': j} for i, j in dummy_tuple]
@@ -297,12 +297,12 @@ dummy_labels_list = ['Population by Age',
                      'American Indian and Alaska Native Population',
                      'Native Hawaiian and Pacific Islander Population',
                     ]
-dummy_values_list = [f'Population_{place}_AGE_LONG',
-                     f'Population_{place}_RACE_LONG',
-                     f'Population_{place}_HISPANICLATINO_LONG',
-                     f'Population_{place}_ASIAN_LONG',
-                     f'Population_{place}_INDIGENOUS_LONG',
-                     f'Population_{place}_NATIVEHAWAIIANPACIFICISLANDER_LONG'
+dummy_values_list = [f'Population_AGE_LONG',
+                     f'Population_RACE_LONG',
+                     f'Population_HISPANICLATINO_LONG',
+                     f'Population_ASIAN_LONG',
+                     f'Population_INDIGENOUS_LONG',
+                     f'Population_NATIVEHAWAIIANPACIFICISLANDER_LONG'
                     ]
 dummy_tuple = zip(dummy_labels_list, dummy_values_list)
 submeasures_dict['Population'] = [{'label': html.Span([i], style = {'color': '#151E3D'}), 'value': j} for i, j in dummy_tuple]
