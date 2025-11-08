@@ -897,7 +897,7 @@ app.clientside_callback("""
 app.clientside_callback(
     """
     async function(selected_year, selected_place, selected_measure) {
-        const url = `https://raw.githubusercontent.com/ramindersinghdubb/datasets/refs/heads/main/LongBeachSocioeconomicIndicators/${selected_year}/${selected_measure}_${selected_place}_${selected_year}.json`;
+        const url = `https://raw.githubusercontent.com/ramindersinghdubb/datasets/refs/heads/main/SoCal_SocioeconomicIndicators/${selected_year}/${selected_measure}_${selected_place}_${selected_year}.json`;
         const response = await fetch(url);
         const data = await response.json();
         return data;
@@ -916,7 +916,7 @@ app.clientside_callback(
 app.clientside_callback(
     """
     async function(selected_year, selected_place, selected_submeasure) {
-        const url = `https://raw.githubusercontent.com/ramindersinghdubb/datasets/refs/heads/main/LongBeachSocioeconomicIndicators/${selected_year}/${selected_submeasure}_${selected_place}_${selected_year}.json`;
+        const url = `https://raw.githubusercontent.com/ramindersinghdubb/datasets/refs/heads/main/SoCal_SocioeconomicIndicators/${selected_year}/${selected_submeasure}_${selected_place}_${selected_year}.json`;
         const response = await fetch(url);
         const data = await response.json();
         return data;
@@ -937,10 +937,10 @@ app.clientside_callback(
     """
     function(selected_year, selected_place, selected_measure, selected_submeasure) {
         if (selected_submeasure === undefined || selected_submeasure === null) {
-            const url = `https://github.com/ramindersinghdubb/datasets/blob/main/LongBeachSocioeconomicIndicators/${selected_year}/${selected_measure}_${selected_place}_${selected_year}.csv`;
+            const url = `https://github.com/ramindersinghdubb/datasets/blob/main/SoCal_SocioeconomicIndicators/${selected_year}/${selected_measure}_${selected_place}_${selected_year}.csv`;
             return url;
         } else {
-            const url = `https://github.com/ramindersinghdubb/datasets/blob/main/LongBeachSocioeconomicIndicators/${selected_year}/${selected_submeasure}_${selected_place}_${selected_year}.csv`;
+            const url = `https://github.com/ramindersinghdubb/datasets/blob/main/SoCal_SocioeconomicIndicators/${selected_year}/${selected_submeasure}_${selected_place}_${selected_year}.csv`;
             return url;
         }
     }
@@ -961,7 +961,7 @@ app.clientside_callback(
 app.clientside_callback(
     """
     async function(selected_year) {
-        const url = `https://raw.githubusercontent.com/ramindersinghdubb/datasets/refs/heads/main/LosAngelesCounty_Census_mapfiles/LosAngelesCounty_LatLongPoints_${selected_year}.json`;
+        const url = `https://raw.githubusercontent.com/ramindersinghdubb/datasets/refs/heads/main/SoCal_CensusTract_Mapfiles/SoCal_LatLongPoints_${selected_year}.geojson`;
         const response = await fetch(url);
         const data = await response.json();
         return data;
@@ -1381,7 +1381,7 @@ app.clientside_callback(
         
         
 
-        var geometry_url = `https://raw.githubusercontent.com/ramindersinghdubb/datasets/refs/heads/main/LosAngelesCounty_Census_mapfiles/${selected_year}/mastergeometry_${selected_year}_${selected_place}.json`;
+        var geometry_url = `https://raw.githubusercontent.com/ramindersinghdubb/datasets/refs/heads/main/SoCal_CensusTract_Mapfiles/${selected_year}/mastergeometry_${selected_place}_${selected_year}.geojson`;
 
         
         var main_data = {
