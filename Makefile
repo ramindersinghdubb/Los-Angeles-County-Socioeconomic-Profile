@@ -18,12 +18,12 @@ run_app:
 
 	mv 127.0.0.1:8050 pages_files
 
-	find pages_files -exec sed -i.bak 's|_dash-component-suites|Los-Angeles-County-Socioeconomic-Profile\\/_dash-component-suites|g' {} \;
-	find pages_files -exec sed -i.bak 's|_dash-layout|Los-Angeles-County-Socioeconomic-Profile/_dash-layout.json|g' {} \;
-	find pages_files -exec sed -i.bak 's|_dash-dependencies|Los-Angeles-County-Socioeconomic-Profile/_dash-dependencies.json|g' {} \;
-	find pages_files -exec sed -i.bak 's|_reload-hash|Los-Angeles-County-Socioeconomic-Profile/_reload-hash|g' {} \;
-	find pages_files -exec sed -i.bak 's|_dash-update-component|Los-Angeles-County-Socioeconomic-Profile/_dash-update-component|g' {} \;
-	find pages_files -exec sed -i.bak 's|assets|Los-Angeles-County-Socioeconomic-Profile/assets|g' {} \;
+	find pages_files -exec sed -i.bak 's|_dash-component-suites|SoCal-Socioeconomic-Profile\\/_dash-component-suites|g' {} \;
+	find pages_files -exec sed -i.bak 's|_dash-layout|SoCal-Socioeconomic-Profile/_dash-layout.json|g' {} \;
+	find pages_files -exec sed -i.bak 's|_dash-dependencies|SoCal-Socioeconomic-Profile/_dash-dependencies.json|g' {} \;
+	find pages_files -exec sed -i.bak 's|_reload-hash|SoCal-Socioeconomic-Profile/_reload-hash|g' {} \;
+	find pages_files -exec sed -i.bak 's|_dash-update-component|SoCal-Socioeconomic-Profile/_dash-update-component|g' {} \;
+	find pages_files -exec sed -i.bak 's|assets|SoCal-Socioeconomic-Profile/assets|g' {} \;
 
 	mv pages_files/_dash-layout pages_files/_dash-layout.json
 	mv pages_files/_dash-dependencies pages_files/_dash-dependencies.json
