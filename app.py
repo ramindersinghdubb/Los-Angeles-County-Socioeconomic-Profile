@@ -42,7 +42,7 @@ anomalous_places = ['AltaSierra', 'BakersfieldCountryClub', 'BentonPark', 'Calif
                     'Pala', 'PepperdineUniversity', 'PotomacPark', 'PumpkinCenter', 'RanchoMissionViejo',
                     'RexlandAcres', 'RidgecrestHeights', 'Rivergrove', 'Sage', 'Silverado', 'Somis', 'Stebbins',
                     'Tarina', 'TrabucoCanyon', 'UniversityofCalifornia-SantaBarbara', 'WilliamsCanyon', 'Woody', 'Yermo']
-places_options = [dict(item) for item in places_options if any(item['value'] != place for place in anomalous_places)]
+places_options = [dict(item) for item in places_options if not any(item['value'] == place for place in anomalous_places)]
 
 modified_values_1 = ['EastWhittier', 'JurupaValley', 'TemescalValley', 'Vincent', 'Whitewater']
 modified_places_options_1 = [dict(item, **{'disabled': True}) if item['value'] in modified_values_1 else dict(item) for item in places_options]
@@ -472,7 +472,7 @@ app = dash.Dash(__name__, external_stylesheets=[dbc.themes.CYBORG,
                                                 "assets/style.css"]
                )
 server = app.server
-app.title = 'Los Angeles County Socioeconomic Profile'
+app.title = 'SoCal Socioeconomic Profile'
 
 
 app.layout = html.Div([
