@@ -26,7 +26,7 @@ ca2020 = ca2020[['STATEFP', 'PLACEFP', 'PLACE_FIPS', 'PLACENAME', 'COUNTIES', 'T
 
 SoCal2020 = ca2020[ca2020.COUNTIES.str.contains('Los Angeles County|Santa Barbara County|Ventura County|Orange County|San Bernardino County|Riverside County|San Diego County|Imperial County|San Luis Obispo County|Kern County')]
 
-for FIPS_code, new_name in zip(['0639759', '0639766', '0630938', '0630944' '0665042'], ['Lakeside (Kern County)', 'Lakeside (San Diego County)', 'Greenacres (Kern County)', 'Green Acres (Riverside County)', 'San Buenaventura (Ventura County)']):
+for FIPS_code, new_name in zip(['0639759', '0639766', '0630938', '0630944', '0665042'], ['Lakeside (Kern County)', 'Lakeside (San Diego County)', 'Greenacres (Kern County)', 'Green Acres (Riverside County)', 'San Buenaventura (Ventura County)']):
     SoCal2020.loc[SoCal2020['PLACE_FIPS'] == FIPS_code, 'PLACENAME'] = new_name
 
 SoCal_keys = SoCal2020['PLACENAME'].str.replace(' town', " Town").to_list()
@@ -34,14 +34,13 @@ SoCal_values = SoCal2020['PLACENAME'].str.replace(' ', '').replace('LaCañadaFli
 places_tuple = zip(SoCal_keys, SoCal_values)
 places_options = [{'label': html.Span([i], style = {'color': '#151E3D'}), 'value': j} for i, j in places_tuple]
 
-anomalous_places = ['AltaSierra', 'BakersfieldCountryClub', 'BentonPark', 'CaliforniaPolytechnicStateUniversity',
-                    'CampPendletonMainside', 'CasaLoma', 'ChoctawValley', 'Cottonwood', 'DelDios', 'DiGiorgio',
-                    'EastBakersfield', 'EasternGoletaValley', 'EastNiles', 'Edison', 'ElAdobe', 'ElCentroNavalAirFacility',
-                    'ElfinForest', 'Fairfax', 'Glennville', 'Goodmanville', 'HarmonyGrove', 'Hillcrest', 'LaCresta',
-                    'Lakeside(KernCounty)', 'Modjeska', 'MountainMeadows', 'OldeStockdale', 'OldRiver', 'OldStine',
-                    'Pala', 'PepperdineUniversity', 'PotomacPark', 'PumpkinCenter', 'RanchoMissionViejo',
-                    'RexlandAcres', 'RidgecrestHeights', 'Rivergrove', 'Sage', 'Silverado', 'Somis', 'Stebbins',
-                    'Tarina', 'TrabucoCanyon', 'UniversityofCaliforniaSantaBarbara', 'WilliamsCanyon', 'Woody', 'Yermo']
+anomalous_places = ['AltaSierra', 'BakersfieldCountryClub', 'BentonPark', 'CaliforniaPolytechnicStateUniversity', 'CampPendletonMainside',
+                    'CasaLoma', 'ChoctawValley', 'Cottonwood', 'DelDios', 'DiGiorgio', 'EastBakersfield', 'EasternGoletaValley', 'EastNiles',
+                    'Edison', 'ElAdobe', 'ElCentroNavalAirFacility', 'ElfinForest', 'Fairfax', 'Glennville', 'Goodmanville', 'HarmonyGrove',
+                    'Hillcrest', 'LaCresta', 'Lakeside(KernCounty)', 'Modjeska', 'MountainMeadows', 'OldeStockdale', 'OldRiver', 'OldStine',
+                    'Pala', 'PepperdineUniversity', 'PotomacPark', 'PumpkinCenter', 'RanchoMissionViejo', 'RexlandAcres', 'RidgecrestHeights',
+                    'Rivergrove', 'Sage', 'Silverado', 'Somis', 'Stebbins', 'Tarina', 'TrabucoCanyon', 'UniversityofCaliforniaSantaBarbara',
+                    'WilliamsCanyon', 'Woody', 'Yermo']
 places_options = [dict(item) for item in places_options if not any(item['value'] == place for place in anomalous_places)]
 
 modified_values_1 = ['EastWhittier', 'JurupaValley', 'TemescalValley', 'Vincent', 'Whitewater']
