@@ -41,15 +41,16 @@ anomalous_places = ['AltaSierra', 'BakersfieldCountryClub', 'BentonPark', 'Calif
                     'Pala', 'PepperdineUniversity', 'PotomacPark', 'PumpkinCenter', 'RanchoMissionViejo', 'RexlandAcres', 'RidgecrestHeights',
                     'Rivergrove', 'Sage', 'Silverado', 'Somis', 'Stebbins', 'Tarina', 'TrabucoCanyon', 'UniversityofCaliforniaSantaBarbara',
                     'WilliamsCanyon', 'Woody', 'Yermo']
-places_options = [dict(item) for item in places_options if not any(item['value'] == place for place in anomalous_places)]
+# places_options = [dict(item) for item in places_options if not any(item['value'] == place for place in anomalous_places)]
 
-modified_values_1 = ['EastWhittier', 'JurupaValley', 'TemescalValley', 'Vincent', 'Whitewater']
+modified_values_1 = ['EastWhittier', 'JurupaValley', 'TemescalValley', 'Vincent', 'Whitewater'] + anomalous_places
 modified_places_options_1 = [dict(item, **{'disabled': True}) if item['value'] in modified_values_1 else dict(item) for item in places_options]
 
-modified_values_2 = ['EastWhittier', 'JurupaValley']
+modified_values_2 = ['EastWhittier', 'JurupaValley'] + anomalous_places
 modified_places_options_2 = [dict(item, **{'disabled': True}) if item['value'] in modified_values_2 else dict(item) for item in places_options]
 
-
+modified_values_3 = anomalous_places
+modified_places_options_3 = [dict(item, **{'disabled': True}) if item['value'] in modified_values_3 else dict(item) for item in places_options]
 
 
 # ---- Years Dropdown ---- #
@@ -63,7 +64,7 @@ modified_years_options_2 = [dict(item, **{'disabled': True}) if item['value'] in
 
 modified_years_options_3 = [dict(item, **{'disabled': True}) if item['value'] in list(range(2010, 2015)) else dict(item) for item in years_options]
 
-
+modified_years_options_4 = [dict(item, **{'disabled': True}) if item['value'] in list(range(2010, 2020)) else dict(item) for item in years_options]
 
 
 # ---- Measures Dropdown ---- #
@@ -582,10 +583,12 @@ app.layout = html.Div([
     dcc.Store(id = "places-dict",            data = places_options),
     dcc.Store(id = "modified-places-dict-1", data = modified_places_options_1),
     dcc.Store(id = "modified-places-dict-2", data = modified_places_options_2),
+    dcc.Store(id = "modified-places-dict-3", data = modified_places_options_3),
     dcc.Store(id = "years-dict",             data = years_options),
     dcc.Store(id = "modified-years-dict-1",  data = modified_years_options_1),
     dcc.Store(id = "modified-years-dict-2",  data = modified_years_options_2),
     dcc.Store(id = "modified-years-dict-3",  data = modified_years_options_3),
+    dcc.Store(id = "modified-years-dict-4",  data = modified_years_options_4),
     dcc.Store(id = "measures-dict",          data = measures_options),
     dcc.Store(id = "modified-measures-dict-1", data = modified_measures_options_1),
     dcc.Store(id = "modified-measures-dict-2", data = modified_measures_options_2),
@@ -608,7 +611,7 @@ app.layout = html.Div([
 
 app.clientside_callback(
     """
-    function(selected_year, places_options, modified_places_options_1, modified_places_options_2) {
+    function(selected_year, places_options, modified_places_options_1, modified_places_options_2, modified_places_options_3) {
         var places_options = places_options;
 
         if ( selected_year == 2010 ) {
@@ -616,6 +619,9 @@ app.clientside_callback(
         }
         if ( selected_year == 2011 ) {
             var places_options = modified_places_options_2;
+        }
+        if ( [2012, 2013, 2014, 2015, 2016, 2017, 2018, 2019].includes(selected_year) ) {
+            var places_options = modified_places_options_3;
         }
         
         return places_options
@@ -625,7 +631,8 @@ app.clientside_callback(
     Input('year-dropdown', 'value'),
     Input('places-dict', 'data'),
     Input('modified-places-dict-1', 'data'),
-    Input('modified-places-dict-2', 'data')
+    Input('modified-places-dict-2', 'data'),
+    Input('modified-places-dict-3', 'data')
 )
 
 # ---- ------------------------------------------------------- ---- #
@@ -634,7 +641,7 @@ app.clientside_callback(
 
 app.clientside_callback(
     """
-    function(selected_place, selected_measure, years_options, modified_years_options_1, modified_years_options_2, modified_years_options_3) {
+    function(selected_place, selected_measure, years_options, modified_years_options_1, modified_years_options_2, modified_years_options_3, modified_years_options_4) {
         var years_options = years_options;
         var selected_place = `${selected_place}`;
 
@@ -647,6 +654,15 @@ app.clientside_callback(
         if ( ['FoodStamps'].includes(selected_measure) ) {
             var years_options = modified_years_options_3;
         }
+        if ( ['AltaSierra', 'BakersfieldCountryClub', 'BentonPark', 'CaliforniaPolytechnicStateUniversity', 'CampPendletonMainside',
+              'CasaLoma', 'ChoctawValley', 'Cottonwood', 'DelDios', 'DiGiorgio', 'EastBakersfield', 'EasternGoletaValley', 'EastNiles',
+              'Edison', 'ElAdobe', 'ElCentroNavalAirFacility', 'ElfinForest', 'Fairfax', 'Glennville', 'Goodmanville', 'HarmonyGrove',
+              'Hillcrest', 'LaCresta', 'Lakeside(KernCounty)', 'Modjeska', 'MountainMeadows', 'OldeStockdale', 'OldRiver', 'OldStine',
+              'Pala', 'PepperdineUniversity', 'PotomacPark', 'PumpkinCenter', 'RanchoMissionViejo', 'RexlandAcres', 'RidgecrestHeights',
+              'Rivergrove', 'Sage', 'Silverado', 'Somis', 'Stebbins', 'Tarina', 'TrabucoCanyon', 'UniversityofCaliforniaSantaBarbara',
+              'WilliamsCanyon', 'Woody', 'Yermo'].includes(selected_place) ) {
+            var years_options = modified_years_options_4;
+        }
         
         return years_options
     }
@@ -657,7 +673,8 @@ app.clientside_callback(
     Input('years-dict', 'data'),
     Input('modified-years-dict-1', 'data'),
     Input('modified-years-dict-2', 'data'),
-    Input('modified-years-dict-3', 'data')
+    Input('modified-years-dict-3', 'data'),
+    Input('modified-years-dict-4', 'data')
 )
 
 # ---- ---------------------------------------------------------- ---- #
