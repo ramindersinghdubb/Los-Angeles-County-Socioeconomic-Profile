@@ -30,7 +30,7 @@ for FIPS_code, new_name in zip(['0639759', '0639766', '0630938', '0630944', '066
     SoCal2020.loc[SoCal2020['PLACE_FIPS'] == FIPS_code, 'PLACENAME'] = new_name
 
 SoCal_keys = SoCal2020['PLACENAME'].str.replace(' town', " Town").to_list()
-SoCal_values = SoCal2020['PLACENAME'].str.replace(' ', '').replace('LaCañadaFlintridge', 'LaCanadaFlintridge')..replace('UniversityofCalifornia-SantaBarbara', 'UniversityofCaliforniaSantaBarbara')to_list()
+SoCal_values = SoCal2020['PLACENAME'].str.replace(' ', '').replace('LaCañadaFlintridge', 'LaCanadaFlintridge').replace('UniversityofCalifornia-SantaBarbara', 'UniversityofCaliforniaSantaBarbara')to_list()
 places_tuple = zip(SoCal_keys, SoCal_values)
 places_options = [{'label': html.Span([i], style = {'color': '#151E3D'}), 'value': j} for i, j in places_tuple]
 
